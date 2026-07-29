@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,9 +26,13 @@
         }
     </script>
     <style>
+        /* Adattamento Zoom Chrome 175% */
+        body {
+            zoom: 0.65; /* Riduce la scala dell'interfaccia rendendola perfetta a 175% di zoom */
+        }
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -42,35 +46,35 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white">
 
     <!-- Header / Navigation Bar -->
     <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row justify-between py-3 sm:h-20 items-center gap-3">
+        <div class="max-w-full mx-auto px-4">
+            <div class="flex flex-row justify-between py-2.5 h-16 items-center gap-2">
                 
                 <!-- Brand Info -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-11 h-11 rounded-2xl bg-sky-500 flex items-center justify-center text-white shadow-lg shadow-sky-500/30">
-                        <i class="fa-solid fa-id-card text-2xl"></i>
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center text-white shadow-md shadow-sky-500/30">
+                        <i class="fa-solid fa-id-card text-lg"></i>
                     </div>
                     <div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-sky-400 block">MICHELE ANACLERIO</span>
-                        <h1 class="text-xl font-extrabold tracking-tight text-white leading-none">CENTRO POST@ Anaclerio</h1>
-                        <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-sky-400 mr-1"></i>Via S. Giovanni Bosco, 19, 70123 Bari BA</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-sky-400 block leading-none">MICHELE ANACLERIO</span>
+                        <h1 class="text-base font-extrabold tracking-tight text-white leading-tight">CENTRO POST@ Anaclerio</h1>
+                        <span class="text-[10px] text-slate-400"><i class="fa-solid fa-location-dot text-sky-400 mr-1"></i>Via S. Giovanni Bosco, 19, Bari</span>
                     </div>
                 </div>
 
                 <!-- Navigation Tabs -->
-                <nav class="flex space-x-2 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700 w-full sm:w-auto justify-center">
-                    <button id="nav-modulo-btn" onclick="switchTab('modulo')" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-sky-500 text-white shadow-md">
+                <nav class="flex space-x-1.5 bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+                    <button id="nav-modulo-btn" onclick="switchTab('modulo')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-sky-500 text-white shadow-md">
                         <i class="fa-solid fa-calendar-plus"></i>
                         <span>Nuova Prenotazione SPID</span>
                     </button>
-                    <button id="nav-calendario-btn" onclick="switchTab('calendario')" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50">
+                    <button id="nav-calendario-btn" onclick="switchTab('calendario')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50">
                         <i class="fa-solid fa-calendar-days"></i>
                         <span>Calendario Appuntamenti</span>
-                        <span id="badge-count" class="ml-1 px-2 py-0.5 text-xs bg-sky-950 text-sky-300 rounded-full font-bold border border-sky-800">0</span>
+                        <span id="badge-count" class="ml-1 px-1.5 py-0.2 text-[10px] bg-sky-950 text-sky-300 rounded-full font-bold border border-sky-800">0</span>
                     </button>
                 </nav>
             </div>
@@ -78,73 +82,73 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-1 max-w-full w-full mx-auto px-4 py-3">
 
         <!-- Toast Notification -->
-        <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-3 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700">
-            <div id="toast-icon" class="text-emerald-400 text-lg">
+        <div id="toast" class="fixed bottom-4 right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-2.5 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl border border-slate-700">
+            <div id="toast-icon" class="text-emerald-400 text-base">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
-            <div id="toast-message" class="text-sm font-medium">Operazione completata con successo</div>
+            <div id="toast-message" class="text-xs font-medium">Operazione completata con successo</div>
         </div>
 
         <!-- SEZIONE 1: MODULO DI PRENOTAZIONE SPID -->
         <section id="tab-modulo" class="transition-all duration-300">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="grid grid-cols-12 gap-4 items-start">
                 
                 <!-- Form Col -->
-                <div class="lg:col-span-8 space-y-6">
+                <div class="col-span-8 space-y-3">
                     
                     <!-- Banner Info Documenti SPID -->
-                    <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-5 sm:p-6 shadow-sm">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center shrink-0 text-lg mt-0.5 shadow-md shadow-sky-500/20">
+                    <div class="bg-sky-50 border border-sky-200 rounded-xl p-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-lg bg-sky-500 text-white flex items-center justify-center shrink-0 text-sm shadow-md shadow-sky-500/20">
                                 <i class="fa-solid fa-folder-open"></i>
                             </div>
-                            <div class="space-y-1 text-sky-950">
-                                <h3 class="font-bold text-base text-sky-900">Requisiti e Documenti per l'Attivazione SPID:</h3>
-                                <ul class="text-xs sm:text-sm text-sky-900 space-y-1 pt-1 font-medium list-disc list-inside">
-                                    <li>🪪 <strong>Carta d’Identità Elettronica (CIE)</strong> in corso di validità e integra</li>
-                                    <li>🪪 <strong>Tessera Sanitaria</strong> in corso di validità e integra</li>
-                                    <li>📱 <strong>Smartphone con Internet</strong> (SMS, e-mail e app)</li>
-                                    <li>👤 <strong>Presenza dell'intestatario obbligatoria</strong> (video riconoscimento)</li>
-                                    <li>💸 <strong>Costo del servizio: € 20,00</strong></li>
+                            <div class="space-y-0.5 text-sky-950 flex-1">
+                                <h3 class="font-bold text-xs text-sky-900">Requisiti e Documenti per l'Attivazione SPID:</h3>
+                                <ul class="text-[11px] text-sky-900 flex flex-wrap gap-x-4 gap-y-0.5 pt-0.5 font-medium">
+                                    <li>🪪 Carta d’Identità Elettronica (CIE)</li>
+                                    <li>🪪 Tessera Sanitaria</li>
+                                    <li>📱 Smartphone attivi</li>
+                                    <li>👤 Presenza obbiettiva dell'intestatario</li>
+                                    <li>💸 <strong>Costo: € 20,00</strong></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <!-- Modulo vero e proprio -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
-                        <div class="border-b border-slate-100 pb-5 mb-6">
-                            <h2 class="text-2xl font-bold text-slate-900 flex items-center space-x-3">
-                                <span>Prenota Appuntamento SPID</span>
-                            </h2>
-                            <p class="text-slate-500 text-sm mt-1">Seleziona uno dei primi 7 giorni disponibili e scegli l'orario.</p>
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                        <div class="border-b border-slate-100 pb-2 mb-3 flex items-center justify-between">
+                            <div>
+                                <h2 class="text-base font-bold text-slate-900">Prenota Appuntamento SPID</h2>
+                                <p class="text-slate-500 text-[11px]">Seleziona uno dei primi 7 giorni disponibili e scegli l'orario.</p>
+                            </div>
                         </div>
 
-                        <form id="booking-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                        <form id="booking-form" onsubmit="handleFormSubmit(event)" class="space-y-3">
                             
                             <!-- SELEZIONE GRAFICA 7 GIORNI E ORARI -->
                             <div>
-                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                                    <i class="fa-regular fa-calendar-days mr-1.5 text-sky-500"></i>1. Seleziona il Giorno (Prossimi 7 Giorni)
+                                <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                                    <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Prossimi 7 Giorni)
                                 </h3>
 
                                 <!-- Pulsanti dei 7 giorni -->
-                                <div id="days-container" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 mb-4">
+                                <div id="days-container" class="grid grid-cols-7 gap-1.5 mb-2">
                                     <!-- Popolato via JS -->
                                 </div>
 
                                 <input type="hidden" id="booking-date" required>
 
                                 <!-- Griglia Orari -->
-                                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                                    <div class="text-xs font-semibold text-slate-500 mb-2 flex items-center justify-between">
+                                <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5">
+                                    <div class="text-[11px] font-semibold text-slate-500 mb-1.5 flex items-center justify-between">
                                         <span>2. Orari disponibili per la data scelta:</span>
                                         <span id="selected-day-label" class="font-bold text-sky-700">Seleziona un giorno</span>
                                     </div>
-                                    <div id="slots-grid-container" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                                    <div id="slots-grid-container" class="grid grid-cols-8 gap-1.5">
                                         <!-- Gli orari appariranno qui dopo aver cliccato un giorno -->
                                     </div>
                                 </div>
@@ -153,52 +157,52 @@
                             </div>
 
                             <!-- DATI CLIENTE -->
-                            <div class="pt-4 border-t border-slate-100">
-                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
-                                    <i class="fa-solid fa-user-gear mr-1.5 text-sky-500"></i>Dati del Richiedente
+                            <div class="pt-2 border-t border-slate-100">
+                                <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                    <i class="fa-solid fa-user-gear mr-1 text-sky-500"></i>Dati del Richiedente
                                 </h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-2 gap-2.5">
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Nome e Cognome *</label>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Nome e Cognome *</label>
                                         <div class="relative">
-                                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 pointer-events-none text-xs">
                                                 <i class="fa-regular fa-user"></i>
                                             </span>
                                             <input type="text" id="client-name" required placeholder="Es. Mario Rossi" oninput="updateFormPreview()"
-                                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
+                                                class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Codice Fiscale *</label>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Codice Fiscale *</label>
                                         <div class="relative">
-                                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 pointer-events-none text-xs">
                                                 <i class="fa-solid fa-barcode"></i>
                                             </span>
                                             <input type="text" id="client-cf" required placeholder="RSSMRA80A01F205X" maxlength="16" style="text-transform:uppercase" oninput="handleCFInput()" onchange="checkExistingCF(this.value)"
-                                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
+                                                class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Telefono / WhatsApp *</label>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Telefono / WhatsApp *</label>
                                         <div class="relative">
-                                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 pointer-events-none text-xs">
                                                 <i class="fa-solid fa-mobile-screen"></i>
                                             </span>
                                             <input type="tel" id="client-phone" required placeholder="3331234567" oninput="updateFormPreview()"
-                                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
+                                                class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Indirizzo Email <span class="text-xs text-slate-400 font-normal">(Opzionale)</span></label>
+                                        <label class="block text-xs font-medium text-slate-700 mb-1">Email <span class="text-[10px] text-slate-400">(Opzionale)</span></label>
                                         <div class="relative">
-                                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 pointer-events-none text-xs">
                                                 <i class="fa-regular fa-envelope"></i>
                                             </span>
-                                            <input type="email" id="client-email" placeholder="mario.rossi@email.it (opzionale)" oninput="updateFormPreview()"
-                                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
+                                            <input type="email" id="client-email" placeholder="mario.rossi@email.it" oninput="updateFormPreview()"
+                                                class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
                                         </div>
                                     </div>
                                 </div>
@@ -206,17 +210,17 @@
 
                             <!-- Note aggiuntive -->
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1.5">Note o Comunicazioni Particolari</label>
-                                <textarea id="booking-notes" rows="2" placeholder="Es. Richiesta assistenza per prima configurazione..." 
-                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all"></textarea>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Note o Comunicazioni Particolari</label>
+                                <textarea id="booking-notes" rows="1" placeholder="Es. Richiesta assistenza..." 
+                                    class="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all"></textarea>
                             </div>
 
                             <!-- Action Buttons -->
-                            <div class="pt-2 flex items-center justify-end space-x-4">
-                                <button type="button" onclick="resetForm()" class="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
+                            <div class="pt-1 flex items-center justify-end space-x-2">
+                                <button type="button" onclick="resetForm()" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition-all">
                                     Azzera
                                 </button>
-                                <button type="submit" class="px-6 py-2.5 rounded-xl text-sm font-semibold bg-sky-600 hover:bg-sky-700 text-white shadow-lg shadow-sky-600/25 active:scale-95 transition-all flex items-center space-x-2">
+                                <button type="submit" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-700 text-white shadow-md shadow-sky-600/25 active:scale-95 transition-all flex items-center space-x-1.5">
                                     <i class="fa-solid fa-check"></i>
                                     <span>Conferma Prenotazione SPID</span>
                                 </button>
@@ -226,57 +230,56 @@
                 </div>
 
                 <!-- Preview Col -->
-                <div class="lg:col-span-4 space-y-6 sticky top-24">
+                <div class="col-span-4 space-y-3 sticky top-20">
                     <!-- Preview Card -->
-                    <div class="bg-gradient-to-br from-slate-900 to-sky-950 rounded-2xl shadow-xl p-6 text-white relative overflow-hidden">
-                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-sky-500/10 rounded-full blur-2xl"></div>
+                    <div class="bg-gradient-to-br from-slate-900 to-sky-950 rounded-xl shadow-lg p-4 text-white relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-sky-500/10 rounded-full blur-xl"></div>
                         
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
-                            <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Riepilogo Scheda SPID</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400">Riepilogo Scheda SPID</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                                 In Inserimento
                             </span>
                         </div>
 
-                        <div class="space-y-4 text-sm">
+                        <div class="space-y-2 text-xs">
                             <div>
-                                <span class="text-slate-400 text-xs block">Servizio:</span>
-                                <span class="font-semibold text-slate-100 text-sm">Attivazione SPID</span>
+                                <span class="text-slate-400 text-[10px] block">Servizio:</span>
+                                <span class="font-semibold text-slate-100">Attivazione SPID</span>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <span class="text-slate-400 text-xs block">Data:</span>
+                                    <span class="text-slate-400 text-[10px] block">Data:</span>
                                     <span id="prev-date" class="font-medium text-slate-200">-- / -- / ----</span>
                                 </div>
                                 <div>
-                                    <span class="text-slate-400 text-xs block">Ora Appuntamento:</span>
+                                    <span class="text-slate-400 text-[10px] block">Ora Appuntamento:</span>
                                     <span id="prev-time" class="font-medium text-slate-200">--:--</span>
                                 </div>
                             </div>
 
-                            <div class="pt-2 border-t border-slate-800">
-                                <span class="text-slate-400 text-xs block">Richiedente:</span>
-                                <span id="prev-client" class="font-medium text-slate-200">Compila i dati cliente</span>
+                            <div class="pt-1.5 border-t border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Richiedente:</span>
+                                <span id="prev-client" class="font-medium text-slate-200 truncate block">Compila i dati cliente</span>
                             </div>
 
                             <div>
-                                <span class="text-slate-400 text-xs block">Sede:</span>
-                                <span class="font-medium text-slate-300 text-xs">CENTRO POST@ Anaclerio<br>Via S. Giovanni Bosco, 19, Bari</span>
+                                <span class="text-slate-400 text-[10px] block">Sede:</span>
+                                <span class="font-medium text-slate-300 text-[11px]">CENTRO POST@ Anaclerio - Via S. Giovanni Bosco, 19, Bari</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Location info Card -->
-                    <div class="bg-white border border-slate-200 rounded-2xl p-5 text-slate-700 shadow-sm space-y-3">
-                        <div class="flex items-center space-x-3 text-sky-600 font-bold text-sm">
-                            <i class="fa-solid fa-map-location-dot text-lg"></i>
+                    <div class="bg-white border border-slate-200 rounded-xl p-3 text-slate-700 shadow-sm space-y-1.5">
+                        <div class="flex items-center space-x-2 text-sky-600 font-bold text-xs">
+                            <i class="fa-solid fa-map-location-dot"></i>
                             <span>Dove Trovarci</span>
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            <strong>CENTRO POST@ Anaclerio di Michele Anaclerio</strong><br>
-                            Via S. Giovanni Bosco, 19<br>
-                            70123 Bari BA, Italia
+                        <p class="text-[11px] text-slate-600 leading-normal">
+                            <strong>CENTRO POST@ Anaclerio</strong><br>
+                            Via S. Giovanni Bosco, 19, 70123 Bari BA
                         </p>
                     </div>
                 </div>
@@ -288,114 +291,114 @@
         <section id="tab-calendario" class="hidden transition-all duration-300">
             
             <!-- Dashboard Stats -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div class="grid grid-cols-3 gap-3 mb-3">
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Totale Prenotazioni SPID</span>
-                        <span id="stat-total" class="text-3xl font-extrabold text-slate-800 mt-1 block">0</span>
+                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Totale Prenotazioni</span>
+                        <span id="stat-total" class="text-xl font-extrabold text-slate-800 mt-0.5 block">0</span>
                     </div>
-                    <div class="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center text-sky-600 text-xl">
+                    <div class="w-8 h-8 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 text-sm">
                         <i class="fa-solid fa-address-card"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Appuntamenti Oggi</span>
-                        <span id="stat-today" class="text-3xl font-extrabold text-emerald-600 mt-1 block">0</span>
+                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Appuntamenti Oggi</span>
+                        <span id="stat-today" class="text-xl font-extrabold text-emerald-600 mt-0.5 block">0</span>
                     </div>
-                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-xl">
+                    <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 text-sm">
                         <i class="fa-solid fa-calendar-check"></i>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Prossimi in Agenda</span>
-                        <span id="stat-upcoming" class="text-3xl font-extrabold text-sky-600 mt-1 block">0</span>
+                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Prossimi in Agenda</span>
+                        <span id="stat-upcoming" class="text-xl font-extrabold text-sky-600 mt-0.5 block">0</span>
                     </div>
-                    <div class="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center text-sky-600 text-xl">
+                    <div class="w-8 h-8 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 text-sm">
                         <i class="fa-solid fa-clock"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Calendario Mensile + Dettaglio Lista -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="grid grid-cols-12 gap-4">
                 
                 <!-- Calendario Interattivo -->
-                <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div class="col-span-7 bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
                     <!-- Month Header -->
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-                        <h3 id="calendar-month-year" class="text-xl font-bold text-slate-800 capitalize">Mese Anno</h3>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="openConfigModal()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center space-x-1.5 mr-2">
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <h3 id="calendar-month-year" class="text-base font-bold text-slate-800 capitalize">Mese Anno</h3>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="openConfigModal()" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-lg shadow-sm transition-all flex items-center space-x-1 mr-1">
                                 <i class="fa-solid fa-gear"></i>
-                                <span>Configura Orari e Ferie</span>
+                                <span>Configura Orari</span>
                             </button>
-                            <button onclick="prevMonth()" class="w-9 h-9 rounded-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all">
+                            <button onclick="prevMonth()" class="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all">
                                 <i class="fa-solid fa-chevron-left text-xs"></i>
                             </button>
-                            <button onclick="goToToday()" class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-all">
+                            <button onclick="goToToday()" class="px-2 py-1 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-all">
                                 Oggi
                             </button>
-                            <button onclick="nextMonth()" class="w-9 h-9 rounded-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all">
+                            <button onclick="nextMonth()" class="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all">
                                 <i class="fa-solid fa-chevron-right text-xs"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- Weekdays -->
-                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                        <div class="text-xs font-bold text-slate-400 py-1">Lun</div>
-                        <div class="text-xs font-bold text-slate-400 py-1">Mar</div>
-                        <div class="text-xs font-bold text-slate-400 py-1">Mer</div>
-                        <div class="text-xs font-bold text-slate-400 py-1">Gio</div>
-                        <div class="text-xs font-bold text-slate-400 py-1">Ven</div>
-                        <div class="text-xs font-bold text-slate-400 py-1 text-sky-500">Sab</div>
-                        <div class="text-xs font-bold text-slate-400 py-1 text-rose-400">Dom</div>
+                    <div class="grid grid-cols-7 gap-1 text-center mb-1">
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5">Lun</div>
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5">Mar</div>
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5">Mer</div>
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5">Gio</div>
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5">Ven</div>
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5 text-sky-500">Sab</div>
+                        <div class="text-[10px] font-bold text-slate-400 py-0.5 text-rose-400">Dom</div>
                     </div>
 
                     <!-- Calendar Grid -->
-                    <div id="calendar-grid" class="grid grid-cols-7 gap-1.5">
+                    <div id="calendar-grid" class="grid grid-cols-7 gap-1">
                         <!-- Populated by JS -->
                     </div>
 
-                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                        <div class="flex items-center space-x-4">
-                            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-sky-600 inline-block mr-1.5"></span>Selezionato</span>
-                            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block mr-1.5"></span>Con Prenotazioni</span>
-                            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block mr-1.5"></span>Chiuso / Ferie</span>
+                    <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                        <div class="flex items-center space-x-3">
+                            <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-sky-600 inline-block mr-1"></span>Selezionato</span>
+                            <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1"></span>Prenotazioni</span>
+                            <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-rose-500 inline-block mr-1"></span>Chiuso</span>
                         </div>
                         <span id="selected-date-label" class="font-semibold text-slate-700">Tutti i giorni</span>
                     </div>
                 </div>
 
                 <!-- Lista Appuntamenti -->
-                <div class="lg:col-span-5">
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col h-full">
+                <div class="col-span-5">
+                    <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col h-full">
                         
                         <!-- Header -->
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5 border-b border-slate-100 pb-4">
-                            <h3 id="list-title" class="text-lg font-bold text-slate-800">Appuntamenti SPID</h3>
+                        <div class="flex items-center justify-between gap-2 mb-3 border-b border-slate-100 pb-2">
+                            <h3 id="list-title" class="text-sm font-bold text-slate-800">Appuntamenti SPID</h3>
                             <button id="reset-filter-btn" onclick="clearDateFilter()" class="hidden text-xs text-sky-600 hover:underline font-semibold">
                                 Mostra tutti
                             </button>
                         </div>
 
                         <!-- Search Bar -->
-                        <div class="mb-4">
+                        <div class="mb-2.5">
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-magnifying-glass text-[10px]"></i>
                                 </span>
-                                <input type="text" id="search-input" onkeyup="renderBookingsList()" placeholder="Cerca nome, codice fiscale o email..."
-                                    class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+                                <input type="text" id="search-input" onkeyup="renderBookingsList()" placeholder="Cerca nome, codice fiscale..."
+                                    class="w-full pl-7 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
                             </div>
                         </div>
 
                         <!-- Appointments List -->
-                        <div id="bookings-list" class="space-y-3 flex-1 overflow-y-auto max-h-[460px] pr-1">
+                        <div id="bookings-list" class="space-y-2 flex-1 overflow-y-auto max-h-[400px] pr-1">
                             <!-- Populated by JS -->
                         </div>
 
@@ -408,51 +411,51 @@
     </main>
 
     <!-- MODALE ALERT CODICE FISCALE DUPLICATO -->
-    <div id="duplicate-cf-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 animate-fade-in">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-amber-200 transform transition-all scale-100">
+    <div id="duplicate-cf-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden border border-amber-200">
             <!-- Modal Header Graphics -->
-            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-8 text-white text-center relative">
-                <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-md shadow-inner">
-                    <i class="fa-solid fa-triangle-exclamation text-4xl text-amber-100"></i>
+            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-5 text-white text-center relative">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2 backdrop-blur-md shadow-inner">
+                    <i class="fa-solid fa-triangle-exclamation text-2xl text-amber-100"></i>
                 </div>
-                <h3 class="text-xl font-extrabold tracking-tight">Attenzione! Prenotazione Trovata</h3>
-                <p class="text-xs text-amber-100 font-medium mt-1">Risulta già un appuntamento inserito con questo Codice Fiscale</p>
+                <h3 class="text-base font-extrabold tracking-tight">Attenzione! Prenotazione Trovata</h3>
+                <p class="text-[10px] text-amber-100 font-medium mt-0.5">Codice Fiscale già presente a sistema</p>
             </div>
             
             <!-- Modal Body -->
-            <div class="p-6 space-y-4">
-                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs space-y-2">
-                    <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
-                        <span class="text-amber-800 font-bold uppercase tracking-wider text-[10px]">Codice Fiscale:</span>
-                        <span id="dup-cf-display" class="font-mono font-extrabold text-amber-950 text-sm">--</span>
+            <div class="p-4 space-y-3">
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs space-y-1.5">
+                    <div class="flex items-center justify-between border-b border-amber-200/60 pb-1">
+                        <span class="text-amber-800 font-bold uppercase tracking-wider text-[9px]">Codice Fiscale:</span>
+                        <span id="dup-cf-display" class="font-mono font-extrabold text-amber-950 text-xs">--</span>
                     </div>
-                    <div class="flex items-center justify-between pt-1">
-                        <span class="text-slate-500">Intestatario:</span>
-                        <span id="dup-name-display" class="font-semibold text-slate-800">--</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500">Data Appuntamento:</span>
-                        <span id="dup-date-display" class="font-bold text-sky-700">--</span>
+                    <div class="flex items-center justify-between pt-0.5">
+                        <span class="text-slate-500 text-[11px]">Intestatario:</span>
+                        <span id="dup-name-display" class="font-semibold text-slate-800 text-[11px]">--</span>
                     </div>
                     <div class="flex items-center justify-between">
-                        <span class="text-slate-500">Orario Registrato:</span>
-                        <span id="dup-time-display" class="font-bold text-slate-800">--</span>
+                        <span class="text-slate-500 text-[11px]">Data Appuntamento:</span>
+                        <span id="dup-date-display" class="font-bold text-sky-700 text-[11px]">--</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-500 text-[11px]">Orario Registrato:</span>
+                        <span id="dup-time-display" class="font-bold text-slate-800 text-[11px]">--</span>
                     </div>
                 </div>
 
-                <p class="text-xs text-slate-500 text-center leading-relaxed">
-                    Puoi decidere di vedere i dettagli nel calendario oppure continuare comunque con una nuova prenotazione.
+                <p class="text-[11px] text-slate-500 text-center leading-normal">
+                    Puoi vedere i dettagli nel calendario oppure continuare con una nuova prenotazione.
                 </p>
             </div>
 
             <!-- Modal Actions -->
-            <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row gap-2">
-                <button onclick="goToExistingBooking()" class="w-full sm:w-1/2 py-2.5 px-3 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1">
+            <div class="bg-slate-50 px-4 py-3 border-t border-slate-100 flex gap-2">
+                <button onclick="goToExistingBooking()" class="w-1/2 py-2 px-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1">
                     <i class="fa-solid fa-eye"></i>
-                    <span>Vedi in Agenda</span>
+                    <span>Vedi Agenda</span>
                 </button>
-                <button onclick="closeDuplicateModal()" class="w-full sm:w-1/2 py-2.5 px-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition-all flex items-center justify-center">
-                    <span>Prosegui Comunque</span>
+                <button onclick="closeDuplicateModal()" class="w-1/2 py-2 px-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold transition-all flex items-center justify-center">
+                    <span>Prosegui</span>
                 </button>
             </div>
         </div>
@@ -460,30 +463,30 @@
 
     <!-- MODALE CONFIGURAZIONE ORARI E GIORNI -->
     <div id="config-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
-            <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] flex flex-col overflow-hidden border border-slate-200">
+            <div class="bg-slate-900 text-white px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <i class="fa-solid fa-sliders text-amber-400"></i>
-                    <h3 class="font-bold text-base">Personalizza Orari e Date di Chiusura</h3>
+                    <h3 class="font-bold text-sm">Personalizza Orari e Date di Chiusura</h3>
                 </div>
                 <button onclick="closeConfigModal()" class="text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-xl"></i>
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
             
-            <div class="p-6 overflow-y-auto space-y-6 flex-1 text-sm">
+            <div class="p-4 overflow-y-auto space-y-4 flex-1 text-xs">
                 <!-- Sezione Gestione Chiusure Straordinarie / Ferie -->
-                <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-3">
-                    <h4 class="font-bold text-amber-900 text-xs uppercase tracking-wider flex items-center">
-                        <i class="fa-solid fa-plane-slash mr-2 text-amber-600"></i>Aggiungi Giorni di Chiusura Straordinaria / Ferie
+                <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
+                    <h4 class="font-bold text-amber-900 text-[10px] uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-plane-slash mr-1.5 text-amber-600"></i>Aggiungi Giorni di Chiusura Straordinaria / Ferie
                     </h4>
                     <div class="flex gap-2">
-                        <input type="date" id="new-closed-date" class="bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 flex-1">
-                        <button type="button" onclick="addClosedDate()" class="bg-amber-600 text-white font-bold text-xs px-4 py-2 rounded-xl hover:bg-amber-700 transition-all shadow-sm">
+                        <input type="date" id="new-closed-date" class="bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 flex-1">
+                        <button type="button" onclick="addClosedDate()" class="bg-amber-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg hover:bg-amber-700 transition-all shadow-sm">
                             Blocca Data
                         </button>
                     </div>
-                    <div id="closed-dates-list" class="flex flex-wrap gap-1.5 pt-1">
+                    <div id="closed-dates-list" class="flex flex-wrap gap-1 pt-1">
                         <!-- Badge date bloccate dinamicamente -->
                     </div>
                 </div>
@@ -491,30 +494,28 @@
                 <hr class="border-slate-100">
 
                 <!-- Sezione Orari Settimanali Standard -->
-                <h4 class="font-bold text-slate-700 text-xs uppercase tracking-wider">Orari Standard Settimanali</h4>
-                <div id="config-days-container" class="space-y-4">
+                <h4 class="font-bold text-slate-700 text-[10px] uppercase tracking-wider">Orari Standard Settimanali</h4>
+                <div id="config-days-container" class="space-y-2.5">
                     <!-- Popolato da JS -->
                 </div>
             </div>
 
-            <div class="bg-slate-50 border-t border-slate-200 px-6 py-4 flex items-center justify-between">
+            <div class="bg-slate-50 border-t border-slate-200 px-4 py-3 flex items-center justify-between">
                 <button onclick="resetDefaultHours()" class="text-xs text-rose-600 hover:underline font-semibold">
                     Ripristina Default
                 </button>
-                <div class="flex space-x-3">
-                    <button onclick="closeConfigModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl text-xs transition-all">Annulla</button>
-                    <button onclick="saveHoursConfig()" class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-xs shadow-md transition-all">Salva Impostazioni</button>
+                <div class="flex space-x-2">
+                    <button onclick="closeConfigModal()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-lg text-xs transition-all">Annulla</button>
+                    <button onclick="saveHoursConfig()" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-md transition-all">Salva Impostazioni</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-400 mt-auto">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="font-semibold text-slate-300">MICHELE ANACLERIO - CENTRO POST@ Anaclerio</p>
-            <p class="mt-1">Via S. Giovanni Bosco, 19, 70123 Bari BA, Italia</p>
-            <p class="mt-2 text-slate-500">&copy; 2026 Sistema Gestione Prenotazioni SPID</p>
+    <footer class="bg-slate-900 border-t border-slate-800 py-3 text-center text-[10px] text-slate-400 mt-auto">
+        <div class="max-w-full mx-auto px-4">
+            <p class="font-semibold text-slate-300">MICHELE ANACLERIO - CENTRO POST@ Anaclerio | Via S. Giovanni Bosco, 19, Bari</p>
         </div>
     </footer>
 
@@ -672,24 +673,24 @@
                 btn.type = 'button';
 
                 if (isClosed || slots.length === 0) {
-                    btn.className = 'p-2.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-400 text-center cursor-not-allowed opacity-60 flex flex-col items-center justify-center';
+                    btn.className = 'p-1.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 text-center cursor-not-allowed opacity-60 flex flex-col items-center justify-center';
                     btn.disabled = true;
                     btn.innerHTML = `
-                        <span class="text-[10px] uppercase tracking-wider font-bold">${dayName}</span>
-                        <span class="text-sm font-extrabold my-0.5">${dayNum} ${monthName}</span>
-                        <span class="text-[9px] font-bold text-rose-500 uppercase">${isClosed ? 'Chiuso' : 'No Orari'}</span>
+                        <span class="text-[9px] uppercase tracking-wider font-bold">${dayName}</span>
+                        <span class="text-xs font-extrabold my-0.5">${dayNum} ${monthName}</span>
+                        <span class="text-[8px] font-bold text-rose-500 uppercase">${isClosed ? 'Chiuso' : 'No Orari'}</span>
                     `;
                 } else {
                     const isSelected = selectedDateString === dateKey;
                     btn.className = isSelected 
-                        ? 'p-2.5 rounded-xl border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-md day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20'
-                        : 'p-2.5 rounded-xl border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
+                        ? 'p-1.5 rounded-lg border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20'
+                        : 'p-1.5 rounded-lg border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
                     
                     btn.onclick = () => selectDay(dateKey, btn);
                     btn.innerHTML = `
-                        <span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">${dayName}</span>
-                        <span class="text-sm font-extrabold text-slate-800 my-0.5">${dayNum} ${monthName}</span>
-                        <span class="text-[9px] font-bold text-emerald-600 uppercase">Aperto</span>
+                        <span class="text-[9px] uppercase tracking-wider font-bold text-slate-400">${dayName}</span>
+                        <span class="text-xs font-extrabold text-slate-800 my-0.5">${dayNum} ${monthName}</span>
+                        <span class="text-[8px] font-bold text-emerald-600 uppercase">Aperto</span>
                     `;
                 }
 
@@ -699,10 +700,10 @@
 
         function selectDay(dateKey, element) {
             document.querySelectorAll('.day-btn').forEach(btn => {
-                btn.className = 'p-2.5 rounded-xl border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
+                btn.className = 'p-1.5 rounded-lg border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
             });
 
-            element.className = 'p-2.5 rounded-xl border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-md day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20';
+            element.className = 'p-1.5 rounded-lg border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20';
 
             selectedDateString = dateKey;
             selectedSlotString = '';
@@ -723,7 +724,7 @@
             container.innerHTML = '';
 
             if (dateChiusura.includes(dateKey)) {
-                container.innerHTML = `<span class="col-span-full text-xs text-rose-500 font-bold py-2">SEDE CHIUSA IN QUESTA DATA</span>`;
+                container.innerHTML = `<span class="col-span-full text-xs text-rose-500 font-bold py-1">SEDE CHIUSA IN QUESTA DATA</span>`;
                 return;
             }
 
@@ -733,7 +734,7 @@
             const takenTimes = bookings.filter(b => b.date === dateKey).map(b => b.time);
 
             if (slots.length === 0) {
-                container.innerHTML = `<span class="col-span-full text-xs text-slate-400 italic py-2">Nessun orario configurato per questo giorno.</span>`;
+                container.innerHTML = `<span class="col-span-full text-xs text-slate-400 italic py-1">Nessun orario configurato.</span>`;
                 return;
             }
 
@@ -743,11 +744,11 @@
                 btn.type = 'button';
                 
                 if (isTaken) {
-                    btn.className = 'py-2 px-3 rounded-xl border border-slate-200 bg-slate-100 text-slate-400 text-xs font-semibold cursor-not-allowed line-through opacity-60';
+                    btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 text-xs font-semibold cursor-not-allowed line-through opacity-60';
                     btn.disabled = true;
                     btn.innerText = `${slot}`;
                 } else {
-                    btn.className = 'py-2 px-3 rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-sky-500 hover:text-sky-600 text-xs font-bold transition-all shadow-sm slot-btn';
+                    btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-sky-500 hover:text-sky-600 text-xs font-bold transition-all shadow-sm slot-btn';
                     btn.onclick = () => selectSlot(slot, btn);
                     btn.innerText = slot;
                 }
@@ -758,10 +759,10 @@
 
         function selectSlot(slot, element) {
             document.querySelectorAll('.slot-btn').forEach(btn => {
-                btn.className = 'py-2 px-3 rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-sky-500 hover:text-sky-600 text-xs font-bold transition-all shadow-sm slot-btn';
+                btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-sky-500 hover:text-sky-600 text-xs font-bold transition-all shadow-sm slot-btn';
             });
 
-            element.className = 'py-2 px-3 rounded-xl border border-sky-600 bg-sky-600 text-white text-xs font-bold transition-all shadow-md active:scale-95 slot-btn ring-2 ring-sky-600/30';
+            element.className = 'py-1 px-2 rounded-lg border border-sky-600 bg-sky-600 text-white text-xs font-bold transition-all shadow-sm active:scale-95 slot-btn ring-2 ring-sky-600/30';
 
             selectedSlotString = slot;
             document.getElementById('booking-time').value = slot;
@@ -778,14 +779,14 @@
                 tabModulo.classList.remove('hidden');
                 tabCalendario.classList.add('hidden');
 
-                btnModulo.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-sky-500 text-white shadow-md";
-                btnCalendario.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50";
+                btnModulo.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-sky-500 text-white shadow-md";
+                btnCalendario.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50";
             } else {
                 tabModulo.classList.add('hidden');
                 tabCalendario.classList.remove('hidden');
 
-                btnCalendario.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-sky-500 text-white shadow-md";
-                btnModulo.className = "flex items-center space-x-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50";
+                btnCalendario.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-sky-500 text-white shadow-md";
+                btnModulo.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50";
 
                 renderCalendar();
                 renderBookingsList();
@@ -913,7 +914,7 @@
             for (let i = adjustedFirstDay; i > 0; i--) {
                 const dayNum = prevMonthTotalDays - i + 1;
                 const cell = document.createElement('div');
-                cell.className = "h-16 border border-slate-100 rounded-xl p-1 bg-slate-50/50 opacity-40 text-xs font-medium text-slate-400 select-none";
+                cell.className = "h-11 border border-slate-100 rounded-lg p-1 bg-slate-50/50 opacity-40 text-[11px] font-medium text-slate-400 select-none";
                 cell.textContent = dayNum;
                 grid.appendChild(cell);
             }
@@ -933,7 +934,7 @@
 
                 const cell = document.createElement('div');
                 
-                let baseClasses = "h-16 border rounded-xl p-1.5 flex flex-col justify-between cursor-pointer transition-all relative group ";
+                let baseClasses = "h-11 border rounded-lg p-1 flex flex-col justify-between cursor-pointer transition-all relative group ";
                 
                 if (isSelected) {
                     baseClasses += "border-sky-600 bg-sky-50/80 shadow-sm ring-2 ring-sky-500/20 ";
@@ -949,19 +950,19 @@
                 cell.onclick = () => filterByDate(dateKey);
 
                 let content = `<div class="flex items-center justify-between">
-                    <span class="text-xs ${isToday ? 'w-5 h-5 bg-sky-600 text-white rounded-full flex items-center justify-center font-bold' : 'text-slate-700 font-medium'}">${day}</span>
-                    ${isClosed ? `<span class="w-2 h-2 rounded-full bg-rose-500" title="Chiuso"></span>` : (dayBookings.length > 0 ? `<span class="w-2 h-2 rounded-full bg-emerald-500"></span>` : '')}
+                    <span class="text-[11px] ${isToday ? 'w-4 h-4 bg-sky-600 text-white rounded-full flex items-center justify-center font-bold text-[10px]' : 'text-slate-700 font-medium'}">${day}</span>
+                    ${isClosed ? `<span class="w-1.5 h-1.5 rounded-full bg-rose-500" title="Chiuso"></span>` : (dayBookings.length > 0 ? `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>` : '')}
                 </div>`;
 
                 if (isClosed) {
                     content += `<div class="mt-auto">
-                        <span class="text-[9px] font-bold px-1 py-0.5 rounded bg-rose-100 text-rose-700 block truncate">
+                        <span class="text-[8px] font-bold px-1 py-0 rounded bg-rose-100 text-rose-700 block truncate">
                             CHIUSO
                         </span>
                     </div>`;
                 } else if (dayBookings.length > 0) {
                     content += `<div class="mt-auto">
-                        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 block truncate">
+                        <span class="text-[9px] font-semibold px-1 py-0 rounded bg-emerald-100 text-emerald-800 block truncate">
                             ${dayBookings.length} SPID
                         </span>
                     </div>`;
@@ -976,7 +977,7 @@
 
             for (let j = 1; j <= remainingCells; j++) {
                 const cell = document.createElement('div');
-                cell.className = "h-16 border border-slate-100 rounded-xl p-1 bg-slate-50/50 opacity-40 text-xs font-medium text-slate-400 select-none";
+                cell.className = "h-11 border border-slate-100 rounded-lg p-1 bg-slate-50/50 opacity-40 text-[11px] font-medium text-slate-400 select-none";
                 cell.textContent = j;
                 grid.appendChild(cell);
             }
@@ -1052,12 +1053,12 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-12 px-4">
-                        <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-3">
-                            <i class="fa-solid fa-id-card-clip text-lg"></i>
+                    <div class="text-center py-8 px-2">
+                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-2">
+                            <i class="fa-solid fa-id-card-clip text-base"></i>
                         </div>
-                        <p class="text-sm font-semibold text-slate-600">Nessun appuntamento trovato</p>
-                        <p class="text-xs text-slate-400 mt-1">Non ci sono prenotazioni per questa selezione.</p>
+                        <p class="text-xs font-semibold text-slate-600">Nessun appuntamento trovato</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">Non ci sono prenotazioni per questa selezione.</p>
                     </div>
                 `;
                 return;
@@ -1104,85 +1105,85 @@
                 let activationHTML = '';
                 if (isAppointTime) {
                     activationHTML = `
-                        <div class="pt-2 border-t border-emerald-200">
+                        <div class="pt-1.5 border-t border-emerald-200">
                             <a href="https://b2b.namirial.it/alberologico/pri/spi/spiric_subj.php" target="_blank" rel="noopener noreferrer" 
-                               class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-extrabold text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 transition-all transform active:scale-95 border-2 border-emerald-400">
-                                <span class="relative flex h-3 w-3">
+                               class="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-extrabold text-[11px] shadow-md flex items-center justify-center space-x-1.5 transition-all transform active:scale-95 border border-emerald-400">
+                                <span class="relative flex h-2.5 w-2.5">
                                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-200 opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
                                 </span>
-                                <span>ATTIVA SPID (Sessione In Corso)</span>
-                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                                <span>ATTIVA SPID (In Corso)</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </a>
                         </div>
                     `;
                 } else if (isExpired) {
                     activationHTML = `
-                        <div class="pt-2 border-t border-rose-100 flex items-center justify-center space-x-2 text-rose-500 bg-rose-50/50 p-2 rounded-xl text-[11px] font-bold">
+                        <div class="pt-1 border-t border-rose-100 flex items-center justify-center space-x-1.5 text-rose-500 bg-rose-50/50 p-1.5 rounded-lg text-[10px] font-bold">
                             <i class="fa-solid fa-clock-rotate-left"></i>
-                            <span>SCADUTO / NON PIÙ ATTIVABILE (Oltre 15 min)</span>
+                            <span>SCADUTO / NON PIÙ ATTIVABILE</span>
                         </div>
                     `;
                 }
 
                 return `
-                    <div class="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-200 transition-all hover:shadow-sm flex flex-col justify-between space-y-3">
+                    <div class="p-3 rounded-lg border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-200 transition-all hover:shadow-sm flex flex-col justify-between space-y-2">
                         <div class="flex items-start justify-between">
                             <div>
-                                <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-800 mb-1">
+                                <span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-sky-100 text-sky-800 mb-0.5">
                                     <span>Attivazione SPID (€ 20,00)</span>
                                 </span>
-                                <h4 class="font-bold text-slate-800 text-sm flex items-center">
+                                <h4 class="font-bold text-slate-800 text-xs flex items-center">
                                     ${item.clientName}
-                                    ${isAppointTime ? `<span class="ml-2 relative flex h-2.5 w-2.5" title="È l'ora della prenotazione!"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span>` : ''}
+                                    ${isAppointTime ? `<span class="ml-1.5 relative flex h-2 w-2" title="Ora appuntamento!"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>` : ''}
                                 </h4>
-                                <span class="text-xs text-slate-500 font-mono">CF: ${item.clientCF}</span>
+                                <span class="text-[10px] text-slate-500 font-mono">CF: ${item.clientCF}</span>
                             </div>
-                            <button onclick="deleteBooking('${item.id}')" title="Annulla prenotazione" class="text-slate-300 hover:text-rose-600 p-1 transition-colors">
-                                <i class="fa-regular fa-trash-can text-sm"></i>
+                            <button onclick="deleteBooking('${item.id}')" title="Annulla prenotazione" class="text-slate-300 hover:text-rose-600 p-0.5 transition-colors">
+                                <i class="fa-regular fa-trash-can text-xs"></i>
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-500 pt-1 border-t border-slate-100">
-                            <div class="flex items-center space-x-1.5">
-                                <i class="fa-regular fa-calendar text-sky-600"></i>
+                        <div class="grid grid-cols-2 gap-1 text-[11px] text-slate-500 pt-1 border-t border-slate-100">
+                            <div class="flex items-center space-x-1">
+                                <i class="fa-regular fa-calendar text-sky-600 text-[10px]"></i>
                                 <span class="font-medium text-slate-700">${formattedDate}</span>
                             </div>
-                            <div class="flex items-center space-x-1.5">
-                                <i class="fa-regular fa-clock text-sky-600"></i>
+                            <div class="flex items-center space-x-1">
+                                <i class="fa-regular fa-clock text-sky-600 text-[10px]"></i>
                                 <span class="font-bold text-slate-800">Ore ${item.time}</span>
                             </div>
                         </div>
 
                         ${activationHTML}
 
-                        <div class="text-xs text-slate-500 flex flex-col space-y-2">
-                            <div class="bg-emerald-50/60 border border-emerald-200/60 p-2.5 rounded-xl space-y-2">
+                        <div class="text-[11px] text-slate-500 flex flex-col space-y-1.5">
+                            <div class="bg-emerald-50/60 border border-emerald-200/60 p-2 rounded-lg space-y-1.5">
                                 <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
-                                        <span class="font-semibold text-slate-700">${item.clientPhone}</span>
+                                    <div class="flex items-center space-x-1.5">
+                                        <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
+                                        <span class="font-semibold text-slate-700 text-[11px]">${item.clientPhone}</span>
                                     </div>
                                     <a href="${waDirectUrl}" target="_blank" rel="noopener noreferrer" 
-                                       class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-medium flex items-center space-x-1 shadow-sm transition-all">
-                                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                                        <span>Apri WhatsApp</span>
+                                       class="px-2 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-medium flex items-center space-x-1 shadow-sm transition-all">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                                        <span>WhatsApp</span>
                                     </a>
                                 </div>
                                 
                                 <button onclick="copyFormattedText('${encodedText}')" 
-                                        class="w-full py-1.5 bg-white border border-emerald-300 text-emerald-800 hover:bg-emerald-100 rounded-lg text-xs font-semibold flex items-center justify-center space-x-1.5 shadow-sm transition-all">
+                                        class="w-full py-1 bg-white border border-emerald-300 text-emerald-800 hover:bg-emerald-100 rounded text-[10px] font-semibold flex items-center justify-center space-x-1 shadow-sm transition-all">
                                     <i class="fa-regular fa-copy"></i>
                                     <span>Copia Messaggio SPID</span>
                                 </button>
                             </div>
 
-                            <div class="flex items-center space-x-1.5 px-1">
-                                <i class="fa-regular fa-envelope text-[10px] text-slate-400"></i>
-                                <span class="truncate">${item.clientEmail}</span>
+                            <div class="flex items-center space-x-1 px-0.5">
+                                <i class="fa-regular fa-envelope text-[9px] text-slate-400"></i>
+                                <span class="truncate text-[10px]">${item.clientEmail}</span>
                             </div>
                             ${item.notes ? `
-                                <div class="text-[11px] text-slate-400 italic bg-white p-2 rounded-lg border border-slate-100 mt-1">
+                                <div class="text-[10px] text-slate-400 italic bg-white p-1.5 rounded border border-slate-100">
                                     "${item.notes}"
                                 </div>
                             ` : ''}
@@ -1224,21 +1225,21 @@
                 const nomeGiorno = nomiGiorni[dayId];
 
                 return `
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
+                    <div class="p-2.5 rounded-lg border border-slate-200 bg-slate-50/50 space-y-2">
                         <div class="flex items-center justify-between">
-                            <span class="font-bold text-slate-800">${nomeGiorno}</span>
-                            <button type="button" onclick="addSlot(${dayId})" class="text-xs bg-sky-100 text-sky-700 hover:bg-sky-200 font-semibold px-2.5 py-1 rounded-lg transition-all flex items-center space-x-1">
-                                <i class="fa-solid fa-plus text-[10px]"></i>
+                            <span class="font-bold text-slate-800 text-xs">${nomeGiorno}</span>
+                            <button type="button" onclick="addSlot(${dayId})" class="text-[10px] bg-sky-100 text-sky-700 hover:bg-sky-200 font-semibold px-2 py-0.5 rounded transition-all flex items-center space-x-1">
+                                <i class="fa-solid fa-plus text-[9px]"></i>
                                 <span>Aggiungi Orario</span>
                             </button>
                         </div>
                         
-                        <div class="flex flex-wrap gap-2">
-                            ${slots.length === 0 ? `<span class="text-xs text-slate-400 italic">Chiuso (Nessun orario)</span>` : ''}
+                        <div class="flex flex-wrap gap-1.5">
+                            ${slots.length === 0 ? `<span class="text-[10px] text-slate-400 italic">Chiuso (Nessun orario)</span>` : ''}
                             ${slots.map((slot, idx) => `
-                                <div class="flex items-center space-x-1 bg-white border border-slate-300 rounded-lg px-2 py-1 shadow-sm">
-                                    <input type="time" value="${slot}" onchange="updateSlot(${dayId}, ${idx}, this.value)" class="text-xs font-semibold text-slate-700 focus:outline-none bg-transparent">
-                                    <button type="button" onclick="removeSlot(${dayId}, ${idx})" class="text-slate-400 hover:text-rose-600 text-xs pl-1">
+                                <div class="flex items-center space-x-1 bg-white border border-slate-300 rounded px-1.5 py-0.5 shadow-sm">
+                                    <input type="time" value="${slot}" onchange="updateSlot(${dayId}, ${idx}, this.value)" class="text-[11px] font-semibold text-slate-700 focus:outline-none bg-transparent">
+                                    <button type="button" onclick="removeSlot(${dayId}, ${idx})" class="text-slate-400 hover:text-rose-600 text-[10px] pl-0.5">
                                         <i class="fa-solid fa-xmark"></i>
                                     </button>
                                 </div>
@@ -1273,7 +1274,7 @@
             if (!listContainer) return;
 
             if (dateChiusura.length === 0) {
-                listContainer.innerHTML = `<span class="text-[11px] text-amber-700/70 italic">Nessuna chiusura straordinaria programmata.</span>`;
+                listContainer.innerHTML = `<span class="text-[10px] text-amber-700/70 italic">Nessuna chiusura straordinaria programmata.</span>`;
                 return;
             }
 
@@ -1281,7 +1282,7 @@
                 const parts = dateStr.split('-');
                 const formatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
                 return `
-                    <span class="inline-flex items-center space-x-1.5 bg-amber-200/80 text-amber-900 border border-amber-300 font-bold px-2.5 py-1 rounded-lg text-xs">
+                    <span class="inline-flex items-center space-x-1 bg-amber-200/80 text-amber-900 border border-amber-300 font-bold px-2 py-0.5 rounded text-[10px]">
                         <span>${formatted}</span>
                         <button type="button" onclick="removeClosedDate('${dateStr}')" class="hover:text-rose-700 ml-1">
                             <i class="fa-solid fa-xmark"></i>
@@ -1340,13 +1341,13 @@
             toastMsg.textContent = message;
 
             if (type === 'error') {
-                toastIcon.className = "text-rose-400 text-lg";
+                toastIcon.className = "text-rose-400 text-base";
                 toastIcon.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i>`;
             } else if (type === 'info') {
-                toastIcon.className = "text-amber-400 text-lg";
+                toastIcon.className = "text-amber-400 text-base";
                 toastIcon.innerHTML = `<i class="fa-solid fa-circle-info"></i>`;
             } else {
-                toastIcon.className = "text-emerald-400 text-lg";
+                toastIcon.className = "text-emerald-400 text-base";
                 toastIcon.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
             }
 
