@@ -1391,6 +1391,102 @@
                 renderBookingsList();
             }
         }, 30000);
+
+        // Variable per tenere traccia delle notifiche già inviate ed evitare ripetizioni
+const notificheInviate = new Set();
+
+// 1. Richiedi il permesso all'avvio della pagina
+document.addEventListener('DOMContentLoaded', () => {
+    if ("Notification" in window) {
+        Notification.requestPermission();
+    }
+});
+
+// 2. Generatore di Suono Fortissimo (Sirena di Allarme)
+function riproduciSuonoAllarme() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Crea oscillatore e guadagno (volume)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sawtooth'; // Timbro squillante/aggressivo tipo allarme
+        
+        // Modulazione frequenza per effetto "sirena"
+        const now = audioCtx.currentTime;
+        osc.frequency.setValueAtTime(880, now); // Nota A5
+        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.3); // Nota A6
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.6);
+        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.9);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 1.2);
+
+        // Volume massimo
+        gain.gain.setValueAtTime(1.0, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 1.5);
+    } catch (e) {
+        console.error("Errore riproduzione audio:", e);
+    }
+}
+
+// 3. Funzione per inviare notifica visiva e sonora
+function inviaNotificaAppuntamento(booking, minutiMancanti) {
+    // Suona l'allarme fortissimo
+    riproduciSuonoAllarme();
+
+    const titolo = `⚠️ PROSSIMO APPUNTAMENTO SPID (-${minutiMancanti} MIN)!`;
+    const opzioni = {
+        body: `Cliente: ${booking.clientName}\nOra Appuntamento: ${booking.time}\nCF: ${booking.clientCF}`,
+        requireInteraction: true // La notifica rimane a schermo finché non la chiudi
+    };
+
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(titolo, opzioni);
+    } else {
+        alert(`${titolo}\n\n${opzioni.body}`);
+    }
+}
+
+// 4. Controllo automatico ogni 30 secondi
+setInterval(() => {
+    if (!bookings || bookings.length === 0) return;
+
+    const adesso = new Date();
+
+    bookings.forEach(booking => {
+        // Estrai data e ora dell'appuntamento
+        const [year, month, day] = booking.date.split('-').map(Number);
+        const [hours, minutes] = booking.time.split(':').map(Number);
+        
+        const dataAppuntamento = new Date(year, month - 1, day, hours, minutes, 0);
+        
+        // Calcola differenza in minuti
+        const diffMs = dataAppuntamento - adesso;
+        const diffMinuti = Math.floor(diffMs / (1000 * 60));
+
+        // Chiavi univoche per evitare che la notifica suoni continuamente nello stesso minuto
+        const key60 = `${booking.id}_60m`;
+        const key30 = `${booking.id}_30m`;
+
+        // Notifica 1 ORA PRIMA (tra 59 e 60 minuti rimanenti)
+        if (diffMinuti === 60 && !notificheInviate.has(key60)) {
+            notificheInviate.add(key60);
+            inviaNotificaAppuntamento(booking, 60);
+        }
+
+        // Notifica 30 MINUTI PRIMA (tra 29 e 30 minuti rimanenti)
+        if (diffMinuti === 30 && !notificheInviate.has(key30)) {
+            notificheInviate.add(key30);
+            inviaNotificaAppuntamento(booking, 30);
+        }
+    });
+}, 30000); // Esegue il controllo ogni 30 secondi
     </script>
 </body>
 </html>
