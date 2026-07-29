@@ -715,72 +715,18 @@
             const formatted = dateObj.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: '2-digit' });
             document.getElementById('selected-day-label').textContent = formatted.toUpperCase();
 
-    
+            renderTimeSlots(dateKey);
             updateFormPreview();
         }
 
         function renderTimeSlots(dateKey) {
-    const container = document.getElementById('slots-grid-container');
-    container.innerHTML = '';
+            const container = document.getElementById('slots-grid-container');
+            container.innerHTML = '';
 
-    if (dateChiusura.includes(dateKey)) {
-        container.innerHTML = `<span class="col-span-full text-xs text-rose-500 font-bold py-1">SEDE CHIUSA IN QUESTA DATA</span>`;
-        return;
-    }
-
-    const selectedDate = parseLocalDate(dateKey);
-    const dayOfWeek = selectedDate.getDay();
-    const slots = orariSettimanali[dayOfWeek] || [];
-    const takenTimes = bookings.filter(b => b.date === dateKey).map(b => b.time);
-
-    if (slots.length === 0) {
-        container.innerHTML = `<span class="col-span-full text-xs text-slate-400 italic py-1">Nessun orario configurato.</span>`;
-        return;
-    }
-
-    // Dati per il controllo del preavviso di 1 ora
-    const now = new Date();
-    const todayStr = getTodayString();
-    const isToday = (dateKey === todayStr);
-
-    slots.forEach(slot => {
-        const isTaken = takenTimes.includes(slot);
-        let isTooLate = false;
-
-        // Se la data selezionata è OGGI, verifica che manchi più di 1 ora
-        if (isToday) {
-            const [h, m] = slot.split(':').map(Number);
-            const slotTimeDate = new Date();
-            slotTimeDate.setHours(h, m, 0, 0);
-
-            // Limite: ora attuale + 60 minuti
-            const limitTime = new Date(now.getTime() + (60 * 60 * 1000));
-            if (slotTimeDate <= limitTime) {
-                isTooLate = true;
+            if (dateChiusura.includes(dateKey)) {
+                container.innerHTML = `<span class="col-span-full text-xs text-rose-500 font-bold py-1">SEDE CHIUSA IN QUESTA DATA</span>`;
+                return;
             }
-        }
-
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        
-        if (isTaken || isTooLate) {
-            btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 text-xs font-semibold cursor-not-allowed line-through opacity-60';
-            btn.disabled = true;
-
-            if (isTaken) {
-                btn.innerText = `${slot} (Occupato)`;
-            } else if (isTooLate) {
-                btn.innerText = `${slot} (Scaduto)`;
-            }
-        } else {
-            btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-sky-500 hover:text-sky-600 text-xs font-bold transition-all shadow-sm slot-btn';
-            btn.onclick = () => selectSlot(slot, btn);
-            btn.innerText = slot;
-        }
-
-        container.appendChild(btn);
-    });
-}
 
             const selectedDate = parseLocalDate(dateKey);
             const dayOfWeek = selectedDate.getDay();
@@ -792,15 +738,40 @@
                 return;
             }
 
+            // Dati per il controllo del preavviso di 1 ora
+            const now = new Date();
+            const todayStr = getTodayString();
+            const isToday = (dateKey === todayStr);
+
             slots.forEach(slot => {
                 const isTaken = takenTimes.includes(slot);
+                let isTooLate = false;
+
+                // Se la data selezionata è OGGI, verifica che manchi più di 1 ora
+                if (isToday) {
+                    const [h, m] = slot.split(':').map(Number);
+                    const slotTimeDate = new Date();
+                    slotTimeDate.setHours(h, m, 0, 0);
+
+                    // Limite: ora attuale + 60 minuti
+                    const limitTime = new Date(now.getTime() + (60 * 60 * 1000));
+                    if (slotTimeDate <= limitTime) {
+                        isTooLate = true;
+                    }
+                }
+
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 
-                if (isTaken) {
+                if (isTaken || isTooLate) {
                     btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 text-xs font-semibold cursor-not-allowed line-through opacity-60';
                     btn.disabled = true;
-                    btn.innerText = `${slot}`;
+
+                    if (isTaken) {
+                        btn.innerText = `${slot} (Occupato)`;
+                    } else if (isTooLate) {
+                        btn.innerText = `${slot} (Scaduto)`;
+                    }
                 } else {
                     btn.className = 'py-1 px-2 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-sky-500 hover:text-sky-600 text-xs font-bold transition-all shadow-sm slot-btn';
                     btn.onclick = () => selectSlot(slot, btn);
