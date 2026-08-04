@@ -124,7 +124,7 @@
                         <div class="border-b border-slate-100 pb-2 mb-3 flex items-center justify-between">
                             <div>
                                 <h2 class="text-base font-bold text-slate-900">Prenota Appuntamento SPID</h2>
-                                <p class="text-slate-500 text-[11px]">Seleziona uno dei primi 7 giorni lavorativi disponibili e scegli l'orario.</p>
+                                <p class="text-slate-500 text-[11px]">Vengono mostrati esclusivamente i primi 7 giorni lavorativi con orari disponibili.</p>
                             </div>
                         </div>
 
@@ -133,7 +133,7 @@
                             <!-- SELEZIONE GRAFICA 7 GIORNI E ORARI -->
                             <div>
                                 <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                                    <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Prossimi 7 Giorni Lavorativi)
+                                    <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Primi 7 Giorni Utili Con Disponibilità)
                                 </h3>
 
                                 <!-- Pulsanti dei 7 giorni -->
@@ -695,7 +695,37 @@
             return orariSettimanali[dayOfWeek] || [];
         }
 
-        // Generazione grafica dei primi 7 GIORNI LAVORATIVI utili (Esclusi Sabato e Domenica)
+        // Restituisce la lista di orari EFFETTIVAMENTE DISPONIBILI (non prenotati e non scaduti) per una data
+        function getAvailableSlotsForDate(dateKey) {
+            if (dateChiusura.includes(dateKey)) return [];
+
+            const dayDate = parseLocalDate(dateKey);
+            const dayOfWeek = dayDate.getDay();
+            const slots = getSlotsForDate(dateKey, dayOfWeek);
+            if (slots.length === 0) return [];
+
+            const takenTimes = bookings.filter(b => b.date === dateKey).map(b => b.time);
+            const now = new Date();
+            const isToday = (dateKey === getTodayString());
+
+            return slots.filter(slot => {
+                // Se già prenotato
+                if (takenTimes.includes(slot)) return false;
+
+                // Se è la giornata odierna, scarta orari passati o entro i prossimi 60 minuti
+                if (isToday) {
+                    const [h, m] = slot.split(':').map(Number);
+                    const slotTimeDate = new Date();
+                    slotTimeDate.setHours(h, m, 0, 0);
+                    const limitTime = new Date(now.getTime() + (60 * 60 * 1000));
+                    if (slotTimeDate <= limitTime) return false;
+                }
+
+                return true;
+            });
+        }
+
+        // Generazione grafica dei primi 7 GIORNI LAVORATIVI CON ALMENO UN ORARIO DISPONIBILE
         function render7Days() {
             const container = document.getElementById('days-container');
             if (!container) return;
@@ -703,8 +733,9 @@
 
             let dayOffset = 0;
             let addedDays = 0;
+            const maxLookaheadDays = 60; // Paracadute per evitare cicli infiniti
 
-            while (addedDays < 7) {
+            while (addedDays < 7 && dayOffset < maxLookaheadDays) {
                 const dayDate = new Date();
                 dayDate.setDate(dayDate.getDate() + dayOffset);
                 dayOffset++;
@@ -716,15 +747,20 @@
                     continue;
                 }
 
-                addedDays++;
-
                 const year = dayDate.getFullYear();
                 const month = String(dayDate.getMonth() + 1).padStart(2, '0');
                 const dayNum = String(dayDate.getDate()).padStart(2, '0');
                 const dateKey = `${year}-${month}-${dayNum}`;
 
-                const slots = getSlotsForDate(dateKey, dayOfWeek);
-                const isClosed = dateChiusura.includes(dateKey);
+                // Calcola quanti orari sono EFFETTIVAMENTE disponibili
+                const availableSlots = getAvailableSlotsForDate(dateKey);
+
+                // SE NON CI SONO ORARI LIBERI (tutto prenotato, scaduto o chiuso), SALTA LA GIORNATA
+                if (availableSlots.length === 0) {
+                    continue;
+                }
+
+                addedDays++;
 
                 const dayName = dayDate.toLocaleDateString('it-IT', { weekday: 'short' });
                 const monthName = dayDate.toLocaleDateString('it-IT', { month: 'short' });
@@ -732,29 +768,19 @@
                 const btn = document.createElement('button');
                 btn.type = 'button';
 
-                if (isClosed || slots.length === 0) {
-                    btn.className = 'p-1.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 text-center cursor-not-allowed opacity-60 flex flex-col items-center justify-center';
-                    btn.disabled = true;
-                    btn.innerHTML = `
-                        <span class="text-[9px] uppercase tracking-wider font-bold">${dayName}</span>
-                        <span class="text-xs font-extrabold my-0.5">${dayNum} ${monthName}</span>
-                        <span class="text-[8px] font-bold text-rose-500 uppercase">${isClosed ? 'Chiuso' : 'No Orari'}</span>
-                    `;
-                } else {
-                    const isSelected = selectedDateString === dateKey;
-                    const isCustom = orariEccezionali && orariEccezionali[dateKey];
+                const isSelected = selectedDateString === dateKey;
+                const isCustom = orariEccezionali && orariEccezionali[dateKey];
 
-                    btn.className = isSelected 
-                        ? 'p-1.5 rounded-lg border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20'
-                        : 'p-1.5 rounded-lg border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
-                    
-                    btn.onclick = () => selectDay(dateKey, btn);
-                    btn.innerHTML = `
-                        <span class="text-[9px] uppercase tracking-wider font-bold text-slate-400">${dayName}</span>
-                        <span class="text-xs font-extrabold text-slate-800 my-0.5">${dayNum} ${monthName}</span>
-                        <span class="text-[8px] font-bold ${isCustom ? 'text-amber-600' : 'text-emerald-600'} uppercase">${isCustom ? 'Speciale' : 'Aperto'}</span>
-                    `;
-                }
+                btn.className = isSelected 
+                    ? 'p-1.5 rounded-lg border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20'
+                    : 'p-1.5 rounded-lg border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
+                
+                btn.onclick = () => selectDay(dateKey, btn);
+                btn.innerHTML = `
+                    <span class="text-[9px] uppercase tracking-wider font-bold text-slate-400">${dayName}</span>
+                    <span class="text-xs font-extrabold text-slate-800 my-0.5">${dayNum} ${monthName}</span>
+                    <span class="text-[8px] font-bold ${isCustom ? 'text-amber-600' : 'text-emerald-600'} uppercase">${isCustom ? 'Speciale' : `${availableSlots.length} liberi`}</span>
+                `;
 
                 container.appendChild(btn);
             }
@@ -1544,6 +1570,7 @@
 
         // Timer di refresh per gli stati di validità degli appuntamenti
         setInterval(() => {
+            render7Days();
             const calendarTab = document.getElementById('tab-calendario');
             if (!calendarTab.classList.contains('hidden')) {
                 renderBookingsList();
