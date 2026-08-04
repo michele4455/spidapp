@@ -537,8 +537,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const bookingsRef = db.ref('prenotazioni');
-        const bookingsRef = db.ref('prenotazioni');
-        const configRef = db.ref('configurazioni');
 
         // Configurazione Default Orari
         const defaultOrari = {
@@ -583,37 +581,17 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-    render7Days();
-
-    // 1. Ascolto in tempo reale delle Prenotazioni da Firebase
-    bookingsRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        bookings = [];
-        if (data) {
-            Object.keys(data).forEach(key => {
-                bookings.push({ id: key, ...data[key] });
-            });
-        }
-        
-        // Aggiorna la vista UI non appena arrivano dati dal Cloud
-        updateBadgeCount();
-        render7Days();
-        renderCalendar();
-        renderBookingsList();
-        updateStats();
-    });
-
-    // 2. NUOVO: Ascolto in tempo reale degli Orari e Chiusure da Firebase
-    configRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            if (data.orari) orariSettimanali = data.orari;
-            if (data.chiusure) dateChiusura = data.chiusure;
             render7Days();
-            renderCalendar();
-        }
-    });
-});
+
+            // ASCOLTO IN TEMPO REALE DA FIREBASE REALTIME DATABASE
+            bookingsRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                bookings = [];
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        bookings.push({ id: key, ...data[key] });
+                    });
+                }
                 
                 // Aggiorna la vista UI non appena arrivano dati dal Cloud
                 updateBadgeCount();
@@ -1341,33 +1319,33 @@
         }
 
         function addClosedDate() {
-    const dateInput = document.getElementById('new-closed-date');
-    const dateVal = dateInput.value;
-    if (!dateVal) return;
+            const dateInput = document.getElementById('new-closed-date');
+            const dateVal = dateInput.value;
+            if (!dateVal) return;
 
-    if (!dateChiusura.includes(dateVal)) {
-        dateChiusura.push(dateVal);
-        configRef.child('chiusure').set(dateChiusura); // <-- Salvataggio Cloud
-        renderClosedDatesList();
-        render7Days();
-        renderCalendar();
-        dateInput.value = '';
-        showToast('Data di chiusura aggiunta!', 'success');
-    }
-}
+            if (!dateChiusura.includes(dateVal)) {
+                dateChiusura.push(dateVal);
+                localStorage.setItem('spid_anaclerio_closed_dates', JSON.stringify(dateChiusura));
+                renderClosedDatesList();
+                render7Days();
+                renderCalendar();
+                dateInput.value = '';
+                showToast('Data di chiusura aggiunta!', 'success');
+            }
+        }
 
         function removeClosedDate(dateStr) {
-    dateChiusura = dateChiusura.filter(d => d !== dateStr);
-    configRef.child('chiusure').set(dateChiusura); // <-- Salvataggio Cloud
-    renderClosedDatesList();
-    render7Days();
-    renderCalendar();
-    showToast('Data rimossa dalle chiusure', 'info');
-}
+            dateChiusura = dateChiusura.filter(d => d !== dateStr);
+            localStorage.setItem('spid_anaclerio_closed_dates', JSON.stringify(dateChiusura));
+            renderClosedDatesList();
+            render7Days();
+            renderCalendar();
+            showToast('Data rimossa dalle chiusure', 'info');
+        }
 
         function saveHoursConfig() {
             orariSettimanali = JSON.parse(JSON.stringify(tempOrari));
-            configRef.child('orari').set(orariSettimanali); // <-- Salvataggio Cloud
+            localStorage.setItem('spid_anaclerio_hours', JSON.stringify(orariSettimanali));
             closeConfigModal();
             render7Days();
             renderCalendar();
