@@ -124,7 +124,7 @@
                         <div class="border-b border-slate-100 pb-2 mb-3 flex items-center justify-between">
                             <div>
                                 <h2 class="text-base font-bold text-slate-900">Prenota Appuntamento SPID</h2>
-                                <p class="text-slate-500 text-[11px]">Seleziona uno dei primi 7 giorni disponibili e scegli l'orario.</p>
+                                <p class="text-slate-500 text-[11px]">Seleziona uno dei primi 7 giorni lavorativi disponibili e scegli l'orario.</p>
                             </div>
                         </div>
 
@@ -133,7 +133,7 @@
                             <!-- SELEZIONE GRAFICA 7 GIORNI E ORARI -->
                             <div>
                                 <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                                    <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Prossimi 7 Giorni)
+                                    <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Prossimi 7 Giorni Lavorativi)
                                 </h3>
 
                                 <!-- Pulsanti dei 7 giorni -->
@@ -230,55 +230,55 @@
                     </div>
                 </div>
 
-                <!-- Preview Col -->
-                <div class="col-span-4 space-y-3 sticky top-20">
+                <!-- Preview Col - INGRANDITA LEGGERMENTE -->
+                <div class="col-span-4 space-y-4 sticky top-20">
                     <!-- Preview Card -->
-                    <div class="bg-gradient-to-br from-slate-900 to-sky-950 rounded-xl shadow-lg p-4 text-white relative overflow-hidden">
+                    <div class="bg-gradient-to-br from-slate-900 to-sky-950 rounded-xl shadow-lg p-5 text-white relative overflow-hidden">
                         <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-sky-500/10 rounded-full blur-xl"></div>
                         
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400">Riepilogo Scheda SPID</span>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Riepilogo Scheda SPID</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                                 In Inserimento
                             </span>
                         </div>
 
-                        <div class="space-y-2 text-xs">
+                        <div class="space-y-3 text-sm">
                             <div>
-                                <span class="text-slate-400 text-[10px] block">Servizio:</span>
-                                <span class="font-semibold text-slate-100">Attivazione SPID</span>
+                                <span class="text-slate-400 text-xs block">Servizio:</span>
+                                <span class="font-bold text-slate-100 text-base">Attivazione SPID</span>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-2">
+                            <div class="grid grid-cols-2 gap-3 pt-1">
                                 <div>
-                                    <span class="text-slate-400 text-[10px] block">Data:</span>
-                                    <span id="prev-date" class="font-medium text-slate-200">-- / -- / ----</span>
+                                    <span class="text-slate-400 text-xs block">Data:</span>
+                                    <span id="prev-date" class="font-bold text-sky-300 text-sm">-- / -- / ----</span>
                                 </div>
                                 <div>
-                                    <span class="text-slate-400 text-[10px] block">Ora Appuntamento:</span>
-                                    <span id="prev-time" class="font-medium text-slate-200">--:--</span>
+                                    <span class="text-slate-400 text-xs block">Ora Appuntamento:</span>
+                                    <span id="prev-time" class="font-bold text-sky-300 text-sm">--:--</span>
                                 </div>
                             </div>
 
-                            <div class="pt-1.5 border-t border-slate-800">
-                                <span class="text-slate-400 text-[10px] block">Richiedente:</span>
-                                <span id="prev-client" class="font-medium text-slate-200 truncate block">Compila i dati cliente</span>
+                            <div class="pt-2 border-t border-slate-800">
+                                <span class="text-slate-400 text-xs block">Richiedente:</span>
+                                <span id="prev-client" class="font-semibold text-slate-100 truncate block text-sm">Compila i dati cliente</span>
                             </div>
 
-                            <div>
-                                <span class="text-slate-400 text-[10px] block">Sede:</span>
-                                <span class="font-medium text-slate-300 text-[11px]">CENTRO POST@ Anaclerio - Via S. Giovanni Bosco, 19, Bari</span>
+                            <div class="pt-1">
+                                <span class="text-slate-400 text-xs block">Sede:</span>
+                                <span class="font-medium text-slate-300 text-xs leading-relaxed block">CENTRO POST@ Anaclerio<br>Via S. Giovanni Bosco, 19, Bari</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Location info Card -->
-                    <div class="bg-white border border-slate-200 rounded-xl p-3 text-slate-700 shadow-sm space-y-1.5">
-                        <div class="flex items-center space-x-2 text-sky-600 font-bold text-xs">
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 text-slate-700 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2 text-sky-600 font-bold text-sm">
                             <i class="fa-solid fa-map-location-dot"></i>
                             <span>Dove Trovarci</span>
                         </div>
-                        <p class="text-[11px] text-slate-600 leading-normal">
+                        <p class="text-xs text-slate-600 leading-relaxed">
                             <strong>CENTRO POST@ Anaclerio</strong><br>
                             Via S. Giovanni Bosco, 19, 70123 Bari BA
                         </p>
@@ -464,7 +464,7 @@
 
     <!-- MODALE CONFIGURAZIONE ORARI E GIORNI -->
     <div id="config-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] flex flex-col overflow-hidden border border-slate-200">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[88vh] flex flex-col overflow-hidden border border-slate-200">
             <div class="bg-slate-900 text-white px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <i class="fa-solid fa-sliders text-amber-400"></i>
@@ -476,6 +476,24 @@
             </div>
             
             <div class="p-4 overflow-y-auto space-y-4 flex-1 text-xs">
+                
+                <!-- Sezione Orari Eccezionali per Singola Data -->
+                <div class="p-3 bg-sky-50 border border-sky-200 rounded-xl space-y-2">
+                    <h4 class="font-bold text-sky-900 text-[10px] uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-calendar-day mr-1.5 text-sky-600"></i>Orari Personalizzati per Singola Data
+                    </h4>
+                    <p class="text-[10px] text-sky-700">Imposta orari specifici per un giorno senza variare gli orari standard.</p>
+                    <div class="flex gap-2 items-center">
+                        <input type="date" id="custom-date-input" class="bg-white border border-sky-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        <button type="button" onclick="addCustomDateConfig()" class="bg-sky-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg hover:bg-sky-700 transition-all shadow-sm">
+                            Configura Data
+                        </button>
+                    </div>
+                    <div id="custom-dates-list" class="space-y-2 pt-1">
+                        <!-- Elenco date con orari speciali -->
+                    </div>
+                </div>
+
                 <!-- Sezione Gestione Chiusure Straordinarie / Ferie -->
                 <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
                     <h4 class="font-bold text-amber-900 text-[10px] uppercase tracking-wider flex items-center">
@@ -507,7 +525,7 @@
                 </button>
                 <div class="flex space-x-2">
                     <button onclick="closeConfigModal()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-lg text-xs transition-all">Annulla</button>
-                    <button onclick="saveHoursConfig()" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-md transition-all">Salva Impostazioni</button>
+                    <button onclick="saveHoursConfig()" class="px-4 py-1.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-md transition-all">Salva Impostazioni Sync</button>
                 </div>
             </div>
         </div>
@@ -537,6 +555,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const bookingsRef = db.ref('prenotazioni');
+        const settingsRef = db.ref('impostazioni');
 
         // Configurazione Default Orari
         const defaultOrari = {
@@ -545,13 +564,14 @@
             3: ["09:00", "09:30", "10:00", "10:30", "11:00"],                            // Mercoledì
             4: ["09:00", "09:30", "10:00", "10:30", "11:00", "16:00", "16:30", "17:00"], // Giovedì
             5: ["09:00", "09:30", "10:00", "10:30", "11:00"],                            // Venerdì
-            6: ["09:00", "09:30", "10:00"],                                             // Sabato
-            0: []                                                                      // Domenica
+            6: [],                                                                      // Sabato
+            0: []                                                                       // Domenica
         };
 
-        // Carica impostazioni da LocalStorage
+        // Variabili stato orari
         let orariSettimanali = JSON.parse(localStorage.getItem('spid_anaclerio_hours')) || defaultOrari;
         let dateChiusura = JSON.parse(localStorage.getItem('spid_anaclerio_closed_dates')) || [];
+        let orariEccezionali = {}; // Struttura: { "YYYY-MM-DD": ["16:00", "16:30"] }
         
         // Array per raccogliere le prenotazioni da Firebase Realtime DB
         let bookings = [];
@@ -583,7 +603,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             render7Days();
 
-            // ASCOLTO IN TEMPO REALE DA FIREBASE REALTIME DATABASE
+            // ASCOLTO IN TEMPO REALE DELLE PRENOTAZIONI DA FIREBASE REALTIME DATABASE
             bookingsRef.on('value', (snapshot) => {
                 const data = snapshot.val();
                 bookings = [];
@@ -593,12 +613,33 @@
                     });
                 }
                 
-                // Aggiorna la vista UI non appena arrivano dati dal Cloud
                 updateBadgeCount();
                 render7Days();
                 renderCalendar();
                 renderBookingsList();
                 updateStats();
+            });
+
+            // SINCRONIZZAZIONE IMPOSTAZIONI ORARI IN TEMPO REALE SU TUTTI I DISPOSITIVI
+            settingsRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    if (data.orari) {
+                        orariSettimanali = data.orari;
+                        localStorage.setItem('spid_anaclerio_hours', JSON.stringify(orariSettimanali));
+                    }
+                    if (data.chiusure) {
+                        dateChiusura = data.chiusure;
+                        localStorage.setItem('spid_anaclerio_closed_dates', JSON.stringify(dateChiusura));
+                    }
+                    if (data.orariEccezionali) {
+                        orariEccezionali = data.orariEccezionali;
+                    } else {
+                        orariEccezionali = {};
+                    }
+                    render7Days();
+                    renderCalendar();
+                }
             });
         });
 
@@ -646,25 +687,43 @@
             }
         }
 
-        // Generazione grafica dei primi 7 giorni utili
+        // Funzione ausiliaria per ottenere gli orari effettivi di una data
+        function getSlotsForDate(dateKey, dayOfWeek) {
+            if (orariEccezionali && orariEccezionali[dateKey]) {
+                return orariEccezionali[dateKey];
+            }
+            return orariSettimanali[dayOfWeek] || [];
+        }
+
+        // Generazione grafica dei primi 7 GIORNI LAVORATIVI utili (Esclusi Sabato e Domenica)
         function render7Days() {
             const container = document.getElementById('days-container');
             if (!container) return;
             container.innerHTML = '';
 
-            const today = new Date();
+            let dayOffset = 0;
+            let addedDays = 0;
 
-            for (let i = 0; i < 7; i++) {
-                const dayDate = new Date(today);
-                dayDate.setDate(today.getDate() + i);
+            while (addedDays < 7) {
+                const dayDate = new Date();
+                dayDate.setDate(dayDate.getDate() + dayOffset);
+                dayOffset++;
+
+                const dayOfWeek = dayDate.getDay();
+
+                // ESCLUSIONE AUTOMATICA DI SABATO (6) E DOMENICA (0)
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    continue;
+                }
+
+                addedDays++;
 
                 const year = dayDate.getFullYear();
                 const month = String(dayDate.getMonth() + 1).padStart(2, '0');
                 const dayNum = String(dayDate.getDate()).padStart(2, '0');
                 const dateKey = `${year}-${month}-${dayNum}`;
 
-                const dayOfWeek = dayDate.getDay();
-                const slots = orariSettimanali[dayOfWeek] || [];
+                const slots = getSlotsForDate(dateKey, dayOfWeek);
                 const isClosed = dateChiusura.includes(dateKey);
 
                 const dayName = dayDate.toLocaleDateString('it-IT', { weekday: 'short' });
@@ -683,6 +742,8 @@
                     `;
                 } else {
                     const isSelected = selectedDateString === dateKey;
+                    const isCustom = orariEccezionali && orariEccezionali[dateKey];
+
                     btn.className = isSelected 
                         ? 'p-1.5 rounded-lg border-2 border-sky-600 bg-sky-50 text-sky-700 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer ring-2 ring-sky-500/20'
                         : 'p-1.5 rounded-lg border border-slate-200 bg-white hover:border-sky-500 hover:text-sky-600 text-center transition-all shadow-sm day-btn flex flex-col items-center justify-center cursor-pointer';
@@ -691,7 +752,7 @@
                     btn.innerHTML = `
                         <span class="text-[9px] uppercase tracking-wider font-bold text-slate-400">${dayName}</span>
                         <span class="text-xs font-extrabold text-slate-800 my-0.5">${dayNum} ${monthName}</span>
-                        <span class="text-[8px] font-bold text-emerald-600 uppercase">Aperto</span>
+                        <span class="text-[8px] font-bold ${isCustom ? 'text-amber-600' : 'text-emerald-600'} uppercase">${isCustom ? 'Speciale' : 'Aperto'}</span>
                     `;
                 }
 
@@ -731,7 +792,7 @@
 
             const selectedDate = parseLocalDate(dateKey);
             const dayOfWeek = selectedDate.getDay();
-            const slots = orariSettimanali[dayOfWeek] || [];
+            const slots = getSlotsForDate(dateKey, dayOfWeek);
             const takenTimes = bookings.filter(b => b.date === dateKey).map(b => b.time);
 
             if (slots.length === 0) {
@@ -1230,11 +1291,14 @@
 
         // --- GESTIONE MODALE CONFIGURAZIONE ORARI E CHIUSURE ---
         let tempOrari = {};
+        let tempOrariEccezionali = {};
 
         function openConfigModal() {
             tempOrari = JSON.parse(JSON.stringify(orariSettimanali));
+            tempOrariEccezionali = JSON.parse(JSON.stringify(orariEccezionali));
             renderConfigDays();
             renderClosedDatesList();
+            renderCustomDatesList();
             document.getElementById('config-modal').classList.remove('hidden');
         }
 
@@ -1295,6 +1359,89 @@
             }
         }
 
+        // --- GESTIONE ORARI ECCEZIONALI SINGLE DATE ---
+        function addCustomDateConfig() {
+            const input = document.getElementById('custom-date-input');
+            const dateVal = input.value;
+            if (!dateVal) return;
+
+            if (!tempOrariEccezionali[dateVal]) {
+                const dayOfWeek = parseLocalDate(dateVal).getDay();
+                // Copia gli orari correnti di quel giorno come base
+                tempOrariEccezionali[dateVal] = Array.from(tempOrari[dayOfWeek] || ["16:00", "16:30", "17:00"]);
+            }
+            input.value = '';
+            renderCustomDatesList();
+        }
+
+        function removeCustomDateConfig(dateStr) {
+            delete tempOrariEccezionali[dateStr];
+            renderCustomDatesList();
+        }
+
+        function addCustomSlot(dateStr) {
+            if (!tempOrariEccezionali[dateStr]) tempOrariEccezionali[dateStr] = [];
+            tempOrariEccezionali[dateStr].push("16:00");
+            tempOrariEccezionali[dateStr].sort();
+            renderCustomDatesList();
+        }
+
+        function removeCustomSlot(dateStr, idx) {
+            tempOrariEccezionali[dateStr].splice(idx, 1);
+            renderCustomDatesList();
+        }
+
+        function updateCustomSlot(dateStr, idx, value) {
+            if (value) {
+                tempOrariEccezionali[dateStr][idx] = value;
+                tempOrariEccezionali[dateStr].sort();
+            }
+        }
+
+        function renderCustomDatesList() {
+            const container = document.getElementById('custom-dates-list');
+            if (!container) return;
+
+            const dates = Object.keys(tempOrariEccezionali);
+            if (dates.length === 0) {
+                container.innerHTML = `<span class="text-[10px] text-sky-700/70 italic block">Nessuna data personalizzata impostata.</span>`;
+                return;
+            }
+
+            container.innerHTML = dates.sort().map(dateStr => {
+                const parts = dateStr.split('-');
+                const formatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                const slots = tempOrariEccezionali[dateStr] || [];
+
+                return `
+                    <div class="p-2 rounded-lg border border-sky-200 bg-white space-y-1.5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-sky-900 text-[11px]"><i class="fa-regular fa-calendar-check mr-1 text-sky-600"></i>${formatted}</span>
+                            <div class="flex items-center space-x-1">
+                                <button type="button" onclick="addCustomSlot('${dateStr}')" class="text-[9px] bg-sky-100 text-sky-800 hover:bg-sky-200 font-bold px-1.5 py-0.5 rounded">
+                                    + Orario
+                                </button>
+                                <button type="button" onclick="removeCustomDateConfig('${dateStr}')" class="text-rose-500 hover:text-rose-700 text-xs px-1">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1">
+                            ${slots.length === 0 ? `<span class="text-[9px] text-rose-500 italic">Chiuso per questa data</span>` : ''}
+                            ${slots.map((slot, idx) => `
+                                <div class="flex items-center space-x-1 bg-sky-50 border border-sky-200 rounded px-1.5 py-0.5">
+                                    <input type="time" value="${slot}" onchange="updateCustomSlot('${dateStr}', ${idx}, this.value)" class="text-[10px] font-bold text-sky-900 focus:outline-none bg-transparent">
+                                    <button type="button" onclick="removeCustomSlot('${dateStr}', ${idx})" class="text-slate-400 hover:text-rose-600 text-[9px]">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function renderClosedDatesList() {
             const listContainer = document.getElementById('closed-dates-list');
             if (!listContainer) return;
@@ -1325,37 +1472,48 @@
 
             if (!dateChiusura.includes(dateVal)) {
                 dateChiusura.push(dateVal);
-                localStorage.setItem('spid_anaclerio_closed_dates', JSON.stringify(dateChiusura));
                 renderClosedDatesList();
-                render7Days();
-                renderCalendar();
                 dateInput.value = '';
-                showToast('Data di chiusura aggiunta!', 'success');
             }
         }
 
         function removeClosedDate(dateStr) {
             dateChiusura = dateChiusura.filter(d => d !== dateStr);
-            localStorage.setItem('spid_anaclerio_closed_dates', JSON.stringify(dateChiusura));
             renderClosedDatesList();
-            render7Days();
-            renderCalendar();
-            showToast('Data rimossa dalle chiusure', 'info');
         }
 
+        // SALVA E SINCRONIZZA ORARI SU FIREBASE IN TEMPO REALE
         function saveHoursConfig() {
             orariSettimanali = JSON.parse(JSON.stringify(tempOrari));
+            orariEccezionali = JSON.parse(JSON.stringify(tempOrariEccezionali));
+
+            // Salva sia locale che in Firebase Database
             localStorage.setItem('spid_anaclerio_hours', JSON.stringify(orariSettimanali));
-            closeConfigModal();
-            render7Days();
-            renderCalendar();
-            showToast('Impostazioni salvate con successo!', 'success');
+            localStorage.setItem('spid_anaclerio_closed_dates', JSON.stringify(dateChiusura));
+
+            settingsRef.set({
+                orari: orariSettimanali,
+                chiusure: dateChiusura,
+                orariEccezionali: orariEccezionali,
+                updatedAt: new Date().toISOString()
+            }, (error) => {
+                if (error) {
+                    showToast('Errore di sincronizzazione impostazioni!', 'error');
+                } else {
+                    showToast('Orari sincronizzati su tutti i dispositivi!', 'success');
+                    closeConfigModal();
+                    render7Days();
+                    renderCalendar();
+                }
+            });
         }
 
         function resetDefaultHours() {
             if (confirm('Vuoi davvero ripristinare gli orari predefiniti?')) {
                 tempOrari = JSON.parse(JSON.stringify(defaultOrari));
+                tempOrariEccezionali = {};
                 renderConfigDays();
+                renderCustomDatesList();
             }
         }
 
@@ -1393,100 +1551,100 @@
         }, 30000);
 
         // Variable per tenere traccia delle notifiche già inviate ed evitare ripetizioni
-const notificheInviate = new Set();
+        const notificheInviate = new Set();
 
-// 1. Richiedi il permesso all'avvio della pagina
-document.addEventListener('DOMContentLoaded', () => {
-    if ("Notification" in window) {
-        Notification.requestPermission();
-    }
-});
+        // 1. Richiedi il permesso all'avvio della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            if ("Notification" in window) {
+                Notification.requestPermission();
+            }
+        });
 
-// 2. Generatore di Suono Fortissimo (Sirena di Allarme)
-function riproduciSuonoAllarme() {
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Crea oscillatore e guadagno (volume)
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        // 2. Generatore di Suono Fortissimo (Sirena di Allarme)
+        function riproduciSuonoAllarme() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Crea oscillatore e guadagno (volume)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
 
-        osc.type = 'sawtooth'; // Timbro squillante/aggressivo tipo allarme
-        
-        // Modulazione frequenza per effetto "sirena"
-        const now = audioCtx.currentTime;
-        osc.frequency.setValueAtTime(880, now); // Nota A5
-        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.3); // Nota A6
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.6);
-        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.9);
-        osc.frequency.exponentialRampToValueAtTime(880, now + 1.2);
+                osc.type = 'sawtooth'; // Timbro squillante/aggressivo tipo allarme
+                
+                // Modulazione frequenza per effetto "sirena"
+                const now = audioCtx.currentTime;
+                osc.frequency.setValueAtTime(880, now); // Nota A5
+                osc.frequency.exponentialRampToValueAtTime(1760, now + 0.3); // Nota A6
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.6);
+                osc.frequency.exponentialRampToValueAtTime(1760, now + 0.9);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 1.2);
 
-        // Volume massimo
-        gain.gain.setValueAtTime(1.0, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
+                // Volume massimo
+                gain.gain.setValueAtTime(1.0, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
 
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
 
-        osc.start(now);
-        osc.stop(now + 1.5);
-    } catch (e) {
-        console.error("Errore riproduzione audio:", e);
-    }
-}
-
-// 3. Funzione per inviare notifica visiva e sonora
-function inviaNotificaAppuntamento(booking, minutiMancanti) {
-    // Suona l'allarme fortissimo
-    riproduciSuonoAllarme();
-
-    const titolo = `⚠️ PROSSIMO APPUNTAMENTO SPID (-${minutiMancanti} MIN)!`;
-    const opzioni = {
-        body: `Cliente: ${booking.clientName}\nOra Appuntamento: ${booking.time}\nCF: ${booking.clientCF}`,
-        requireInteraction: true // La notifica rimane a schermo finché non la chiudi
-    };
-
-    if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(titolo, opzioni);
-    } else {
-        alert(`${titolo}\n\n${opzioni.body}`);
-    }
-}
-
-// 4. Controllo automatico ogni 30 secondi
-setInterval(() => {
-    if (!bookings || bookings.length === 0) return;
-
-    const adesso = new Date();
-
-    bookings.forEach(booking => {
-        // Estrai data e ora dell'appuntamento
-        const [year, month, day] = booking.date.split('-').map(Number);
-        const [hours, minutes] = booking.time.split(':').map(Number);
-        
-        const dataAppuntamento = new Date(year, month - 1, day, hours, minutes, 0);
-        
-        // Calcola differenza in minuti
-        const diffMs = dataAppuntamento - adesso;
-        const diffMinuti = Math.floor(diffMs / (1000 * 60));
-
-        // Chiavi univoche per evitare che la notifica suoni continuamente nello stesso minuto
-        const key60 = `${booking.id}_60m`;
-        const key30 = `${booking.id}_30m`;
-
-        // Notifica 1 ORA PRIMA (tra 59 e 60 minuti rimanenti)
-        if (diffMinuti === 60 && !notificheInviate.has(key60)) {
-            notificheInviate.add(key60);
-            inviaNotificaAppuntamento(booking, 60);
+                osc.start(now);
+                osc.stop(now + 1.5);
+            } catch (e) {
+                console.error("Errore riproduzione audio:", e);
+            }
         }
 
-        // Notifica 30 MINUTI PRIMA (tra 29 e 30 minuti rimanenti)
-        if (diffMinuti === 30 && !notificheInviate.has(key30)) {
-            notificheInviate.add(key30);
-            inviaNotificaAppuntamento(booking, 30);
+        // 3. Funzione per inviare notifica visiva e sonora
+        function inviaNotificaAppuntamento(booking, minutiMancanti) {
+            // Suona l'allarme fortissimo
+            riproduciSuonoAllarme();
+
+            const titolo = `⚠️ PROSSIMO APPUNTAMENTO SPID (-${minutiMancanti} MIN)!`;
+            const opzioni = {
+                body: `Cliente: ${booking.clientName}\nOra Appuntamento: ${booking.time}\nCF: ${booking.clientCF}`,
+                requireInteraction: true // La notifica rimane a schermo finché non la chiudi
+            };
+
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification(titolo, opzioni);
+            } else {
+                alert(`${titolo}\n\n${opzioni.body}`);
+            }
         }
-    });
-}, 30000); // Esegue il controllo ogni 30 secondi
+
+        // 4. Controllo automatico ogni 30 secondi
+        setInterval(() => {
+            if (!bookings || bookings.length === 0) return;
+
+            const adesso = new Date();
+
+            bookings.forEach(booking => {
+                // Estrai data e ora dell'appuntamento
+                const [year, month, day] = booking.date.split('-').map(Number);
+                const [hours, minutes] = booking.time.split(':').map(Number);
+                
+                const dataAppuntamento = new Date(year, month - 1, day, hours, minutes, 0);
+                
+                // Calcola differenza in minuti
+                const diffMs = dataAppuntamento - adesso;
+                const diffMinuti = Math.floor(diffMs / (1000 * 60));
+
+                // Chiavi univoche per evitare che la notifica suoni continuamente nello stesso minuto
+                const key60 = `${booking.id}_60m`;
+                const key30 = `${booking.id}_30m`;
+
+                // Notifica 1 ORA PRIMA (tra 59 e 60 minuti rimanenti)
+                if (diffMinuti === 60 && !notificheInviate.has(key60)) {
+                    notificheInviate.add(key60);
+                    inviaNotificaAppuntamento(booking, 60);
+                }
+
+                // Notifica 30 MINUTI PRIMA (tra 29 e 30 minuti rimanenti)
+                if (diffMinuti === 30 && !notificheInviate.has(key30)) {
+                    notificheInviate.add(key30);
+                    inviaNotificaAppuntamento(booking, 30);
+                }
+            });
+        }, 30000); // Esegue il controllo ogni 30 secondi
     </script>
 </body>
 </html>
