@@ -27,25 +27,45 @@
         }
     </script>
     <style>
-        /* Adattamento Zoom Chrome 175% */
+    /* ==========================================
+       CONFIGURAZIONE DESKTOP (Invariata)
+       ========================================== */
+    body {
+        zoom: 0.85; /* Riduce la scala dell'interfaccia rendendola perfetta a 175% di zoom */
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
+    /* ==========================================
+       ADATTAMENTO MOBILE (Solo per smartphone)
+       ========================================== */
+    @media screen and (max-width: 768px) {
         body {
-            zoom: 0.85; /* Riduce la scala dell'interfaccia rendendola perfetta a 175% di zoom */
+            zoom: 1; /* Annulla lo zoom forzato per non rimpicciolire il testo su mobile */
+            overflow-x: hidden; /* Evita lo scorrimento orizzontale indesiderato */
+            width: 100%;
         }
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+
+        /* Garantisce che elementi multimediali e contenitori si adattino allo schermo */
+        img, video, iframe, table {
+            max-width: 100% !important;
+            height: auto;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+    }
+</style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white">
 
