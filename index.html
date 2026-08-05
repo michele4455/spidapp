@@ -1183,12 +1183,13 @@
                 const parts = item.date.split('-');
                 const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
-                // --- LOGICA TEMPORALE PER ATTIVAZIONE SPID (Finestra 15 Minuti) ---
+                // --- LOGICA TEMPORALE PER ATTIVAZIONE SPID (-10m dall'orario a +15m dopo) ---
                 const [h, m] = item.time.split(':').map(Number);
                 const bookingTimeDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), h, m, 0);
-                const expiryTimeDate = new Date(bookingTimeDate.getTime() + (15 * 60 * 1000)); // +15 minuti
+                const startTimeDate = new Date(bookingTimeDate.getTime() - (10 * 60 * 1000)); // -10 minuti prima dell'appuntamento
+                const expiryTimeDate = new Date(bookingTimeDate.getTime() + (15 * 60 * 1000)); // +15 minuti dopo l'appuntamento
 
-                const isAppointTime = now >= bookingTimeDate && now <= expiryTimeDate;
+                const isAppointTime = now >= startTimeDate && now <= expiryTimeDate;
                 const isExpired = now > expiryTimeDate;
 
                 let cleanPhone = item.clientPhone.replace(/\D/g, '');
