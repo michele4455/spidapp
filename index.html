@@ -1498,8 +1498,9 @@
 
             if (!tempOrariEccezionali[dateVal]) {
                 const dayOfWeek = parseLocalDate(dateVal).getDay();
-                // Copia gli orari correnti di quel giorno come base
-                tempOrariEccezionali[dateVal] = Array.from(tempOrari[dayOfWeek] || ["16:00", "16:30", "17:00"]);
+                // Copia gli orari settimanali correnti di quel giorno come base
+                const baseSlots = tempOrari[dayOfWeek] ? [...tempOrari[dayOfWeek]] : [];
+                tempOrariEccezionali[dateVal] = baseSlots;
             }
             input.value = '';
             renderCustomDatesList();
