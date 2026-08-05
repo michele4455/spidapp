@@ -534,11 +534,11 @@
                     <h4 class="font-bold text-sky-900 text-[10px] uppercase tracking-wider flex items-center">
                         <i class="fa-solid fa-calendar-day mr-1.5 text-sky-600"></i>Orari Personalizzati per Singola Data
                     </h4>
-                    <p class="text-[10px] text-sky-700">Imposta orari specifici per un giorno senza variare gli orari standard.</p>
+                    <p class="text-[10px] text-sky-700">Aggiungi orari specifici per una data senza alterare quelli predefiniti.</p>
                     <div class="flex gap-2 items-center">
                         <input type="date" id="custom-date-input" class="bg-white border border-sky-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
                         <button type="button" onclick="addCustomDateConfig()" class="bg-sky-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg hover:bg-sky-700 transition-all shadow-sm">
-                            Configura Data
+                            Seleziona Data
                         </button>
                     </div>
                     <div id="custom-dates-list" class="space-y-2 pt-1">
@@ -623,7 +623,7 @@
         // Variabili stato orari
         let orariSettimanali = JSON.parse(localStorage.getItem('spid_anaclerio_hours')) || defaultOrari;
         let dateChiusura = JSON.parse(localStorage.getItem('spid_anaclerio_closed_dates')) || [];
-        let orariEccezionali = {}; // Struttura: { "YYYY-MM-DD": ["16:00", "16:30"] }
+        let orariEccezionali = {}; // Struttura: { "YYYY-MM-DD": { added: ["18:00"], removed: ["09:00"] } }
         
         // Array per raccogliere le prenotazioni da Firebase Realtime DB
         let bookings = [];
@@ -764,12 +764,34 @@
             }
         }
 
-        // Funzione ausiliaria per ottenere gli orari effettivi di una data
+        // Funzione ausiliaria per ottenere gli orari effettivi di una data (Default + Aggiunti - Rimossi)
         function getSlotsForDate(dateKey, dayOfWeek) {
+            let baseSlots = [...(orariSettimanali[dayOfWeek] || [])];
+            
             if (orariEccezionali && orariEccezionali[dateKey]) {
-                return orariEccezionali[dateKey];
+                const exc = orariEccezionali[dateKey];
+                // Supporto retrocompatibilità per vecchi oggetti salvati come array puro
+                if (Array.isArray(exc)) {
+                    return exc;
+                }
+                
+                // Rimuovi quelli esplicitamente rimossi
+                if (exc.removed && Array.isArray(exc.removed)) {
+                    baseSlots = baseSlots.filter(s => !exc.removed.includes(s));
+                }
+                
+                // Aggiungi quelli nuovi senza duplicarli
+                if (exc.added && Array.isArray(exc.added)) {
+                    exc.added.forEach(s => {
+                        if (!baseSlots.includes(s)) {
+                            baseSlots.push(s);
+                        }
+                    });
+                }
             }
-            return orariSettimanali[dayOfWeek] || [];
+            
+            // Ordina gli orari in formato orario
+            return baseSlots.sort();
         }
 
         // Restituisce la lista di orari EFFETTIVAMENTE DISPONIBILI (non prenotati e non scaduti) per una data
@@ -1490,17 +1512,17 @@
             }
         }
 
-        // --- GESTIONE ORARI ECCEZIONALI SINGLE DATE ---
+        // --- GESTIONE ORARI ECCEZIONALI SINGLE DATE (AGGIUNGI / RIMUOVI MANTENENDO I DEFAULT) ---
         function addCustomDateConfig() {
             const input = document.getElementById('custom-date-input');
             const dateVal = input.value;
             if (!dateVal) return;
 
             if (!tempOrariEccezionali[dateVal]) {
-                const dayOfWeek = parseLocalDate(dateVal).getDay();
-                // Copia gli orari settimanali correnti di quel giorno come base
-                const baseSlots = tempOrari[dayOfWeek] ? [...tempOrari[dayOfWeek]] : [];
-                tempOrariEccezionali[dateVal] = baseSlots;
+                tempOrariEccezionali[dateVal] = { added: [], removed: [] };
+            } else if (Array.isArray(tempOrariEccezionali[dateVal])) {
+                // Conversione struttura precedente se esistente
+                tempOrariEccezionali[dateVal] = { added: tempOrariEccezionali[dateVal], removed: [] };
             }
             input.value = '';
             renderCustomDatesList();
@@ -1511,23 +1533,49 @@
             renderCustomDatesList();
         }
 
-        function addCustomSlot(dateStr) {
-            if (!tempOrariEccezionali[dateStr]) tempOrariEccezionali[dateStr] = [];
-            tempOrariEccezionali[dateStr].push("16:00");
-            tempOrariEccezionali[dateStr].sort();
-            renderCustomDatesList();
-        }
-
-        function removeCustomSlot(dateStr, idx) {
-            tempOrariEccezionali[dateStr].splice(idx, 1);
-            renderCustomDatesList();
-        }
-
-        function updateCustomSlot(dateStr, idx, value) {
-            if (value) {
-                tempOrariEccezionali[dateStr][idx] = value;
-                tempOrariEccezionali[dateStr].sort();
+        function addCustomSlotToDate(dateStr) {
+            if (!tempOrariEccezionali[dateStr]) {
+                tempOrariEccezionali[dateStr] = { added: [], removed: [] };
             }
+            if (!tempOrariEccezionali[dateStr].added) {
+                tempOrariEccezionali[dateStr].added = [];
+            }
+            tempOrariEccezionali[dateStr].added.push("16:00");
+            tempOrariEccezionali[dateStr].added.sort();
+            renderCustomDatesList();
+        }
+
+        function removeCustomAddedSlot(dateStr, idx) {
+            if (tempOrariEccezionali[dateStr] && tempOrariEccezionali[dateStr].added) {
+                tempOrariEccezionali[dateStr].added.splice(idx, 1);
+                renderCustomDatesList();
+            }
+        }
+
+        function updateCustomAddedSlot(dateStr, idx, value) {
+            if (value && tempOrariEccezionali[dateStr] && tempOrariEccezionali[dateStr].added) {
+                tempOrariEccezionali[dateStr].added[idx] = value;
+                tempOrariEccezionali[dateStr].added.sort();
+            }
+        }
+
+        function toggleRemoveDefaultSlot(dateStr, slot) {
+            if (!tempOrariEccezionali[dateStr]) {
+                tempOrariEccezionali[dateStr] = { added: [], removed: [] };
+            }
+            if (!tempOrariEccezionali[dateStr].removed) {
+                tempOrariEccezionali[dateStr].removed = [];
+            }
+
+            const idx = tempOrariEccezionali[dateStr].removed.indexOf(slot);
+            if (idx > -1) {
+                // Riabilita il default
+                tempOrariEccezionali[dateStr].removed.splice(idx, 1);
+            } else {
+                // Rimuovi/Nascondi il default
+                tempOrariEccezionali[dateStr].removed.push(slot);
+            }
+            renderCustomDatesList();
         }
 
         function renderCustomDatesList() {
@@ -1543,31 +1591,65 @@
             container.innerHTML = dates.sort().map(dateStr => {
                 const parts = dateStr.split('-');
                 const formatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
-                const slots = tempOrariEccezionali[dateStr] || [];
+                const dayOfWeek = parseLocalDate(dateStr).getDay();
+                
+                // Prendi i default della settimana
+                let defaultSlots = tempOrari[dayOfWeek] || [];
+                
+                let exc = tempOrariEccezionali[dateStr];
+                if (Array.isArray(exc)) {
+                    exc = { added: exc, removed: [] };
+                    tempOrariEccezionali[dateStr] = exc;
+                }
+
+                const addedSlots = exc.added || [];
+                const removedSlots = exc.removed || [];
 
                 return `
-                    <div class="p-2 rounded-lg border border-sky-200 bg-white space-y-1.5 shadow-sm">
+                    <div class="p-2 rounded-lg border border-sky-200 bg-white space-y-2 shadow-sm">
                         <div class="flex items-center justify-between">
-                            <span class="font-bold text-sky-900 text-[11px]"><i class="fa-regular fa-calendar-check mr-1 text-sky-600"></i>${formatted}</span>
+                            <span class="font-bold text-sky-900 text-[11px]"><i class="fa-regular fa-calendar-check mr-1 text-sky-600"></i>${formatted} (${nomiGiorni[dayOfWeek]})</span>
                             <div class="flex items-center space-x-1">
-                                <button type="button" onclick="addCustomSlot('${dateStr}')" class="text-[9px] bg-sky-100 text-sky-800 hover:bg-sky-200 font-bold px-1.5 py-0.5 rounded">
-                                    + Orario
+                                <button type="button" onclick="addCustomSlotToDate('${dateStr}')" class="text-[9px] bg-sky-600 text-white hover:bg-sky-700 font-bold px-2 py-0.5 rounded shadow-sm">
+                                    + Aggiungi Orario
                                 </button>
                                 <button type="button" onclick="removeCustomDateConfig('${dateStr}')" class="text-rose-500 hover:text-rose-700 text-xs px-1">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-1">
-                            ${slots.length === 0 ? `<span class="text-[9px] text-rose-500 italic">Chiuso per questa data</span>` : ''}
-                            ${slots.map((slot, idx) => `
-                                <div class="flex items-center space-x-1 bg-sky-50 border border-sky-200 rounded px-1.5 py-0.5">
-                                    <input type="time" value="${slot}" onchange="updateCustomSlot('${dateStr}', ${idx}, this.value)" class="text-[10px] font-bold text-sky-900 focus:outline-none bg-transparent">
-                                    <button type="button" onclick="removeCustomSlot('${dateStr}', ${idx})" class="text-slate-400 hover:text-rose-600 text-[9px]">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-                                </div>
-                            `).join('')}
+
+                        <!-- Orari Default con opzione di rimozione mirata -->
+                        <div class="space-y-1">
+                            <span class="text-[9px] font-semibold text-slate-400 block uppercase tracking-wide">Orari Predefiniti del giorno (clicca per escludere):</span>
+                            <div class="flex flex-wrap gap-1">
+                                ${defaultSlots.length === 0 ? `<span class="text-[9px] text-slate-400 italic">Nessun orario predefinito per questo giorno.</span>` : ''}
+                                ${defaultSlots.map(slot => {
+                                    const isExcluded = removedSlots.includes(slot);
+                                    return `
+                                        <button type="button" onclick="toggleRemoveDefaultSlot('${dateStr}', '${slot}')" 
+                                            class="px-2 py-0.5 rounded text-[10px] font-bold border transition-all ${isExcluded ? 'bg-rose-50 text-rose-500 border-rose-200 line-through' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
+                                            ${slot} ${isExcluded ? '<i class="fa-solid fa-plus ml-0.5 text-[8px]"></i>' : '<i class="fa-solid fa-xmark ml-0.5 text-[8px]"></i>'}
+                                        </button>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Orari Aggiuntivi specifici -->
+                        <div class="space-y-1 pt-1 border-t border-sky-100">
+                            <span class="text-[9px] font-semibold text-sky-700 block uppercase tracking-wide">Orari Extra Aggiunti:</span>
+                            <div class="flex flex-wrap gap-1">
+                                ${addedSlots.length === 0 ? `<span class="text-[9px] text-sky-600/70 italic">Nessun orario extra aggiunto.</span>` : ''}
+                                ${addedSlots.map((slot, idx) => `
+                                    <div class="flex items-center space-x-1 bg-sky-50 border border-sky-200 rounded px-1.5 py-0.5">
+                                        <input type="time" value="${slot}" onchange="updateCustomAddedSlot('${dateStr}', ${idx}, this.value)" class="text-[10px] font-bold text-sky-900 focus:outline-none bg-transparent">
+                                        <button type="button" onclick="removeCustomAddedSlot('${dateStr}', ${idx})" class="text-slate-400 hover:text-rose-600 text-[9px]">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1781,3 +1863,4 @@
     </script>
 </body>
 </html>
+```[cite: 1]
