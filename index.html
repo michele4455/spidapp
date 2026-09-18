@@ -114,6 +114,7 @@
         </div>
 
         <!-- SEZIONE 1: MODULO DI PRENOTAZIONE SPID -->
+        <!-- SEZIONE 1: MODULO DI PRENOTAZIONE SPID -->
         <section id="tab-modulo" class="transition-all duration-300">
             <div class="grid grid-cols-12 gap-4 items-start">
                 
@@ -144,37 +145,54 @@
                         <div class="border-b border-slate-100 pb-2 mb-3 flex items-center justify-between">
                             <div>
                                 <h2 class="text-base font-bold text-slate-900">Prenota Appuntamento SPID</h2>
-                                <p class="text-slate-500 text-[11px]">Vengono mostrati esclusivamente i primi 7 giorni lavorativi con orari disponibili.</p>
+                                <p class="text-slate-500 text-[11px]">Inserisci prima il Codice Fiscale per accedere alla scelta delle date e degli orari disponibili.</p>
                             </div>
                         </div>
 
                         <form id="booking-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
                             
-                            <!-- SELEZIONE GRAFICA 7 GIORNI E ORARI (Ingranditi leggermente) -->
-                            <div>
-                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                                    <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Primi 7 Giorni Utili Con Disponibilità)
-                                </h3>
-
-                                <!-- Pulsanti dei 7 giorni -->
-                                <div id="days-container" class="grid grid-cols-7 gap-2 mb-3">
-                                    <!-- Popolato via JS -->
+                            <!-- STEP 0: INSERIMENTO CODICE FISCALE PRELIMINARE -->
+                            <div class="bg-sky-50/60 border border-sky-200 rounded-xl p-3">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-sky-900 mb-1.5">
+                                    <i class="fa-solid fa-barcode mr-1 text-sky-600"></i>0. Inserisci il Codice Fiscale del Richiedente *
+                                </label>
+                                <div class="relative max-w-sm">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 pointer-events-none text-xs">
+                                        <i class="fa-solid fa-id-card"></i>
+                                    </span>
+                                    <input type="text" id="initial-cf" required placeholder="Es. RSSMRA80A01F205X" maxlength="16" style="text-transform:uppercase" oninput="validateInitialCF()"
+                                        class="w-full pl-9 pr-3 py-2 bg-white border border-sky-300 rounded-lg text-xs font-mono font-bold tracking-wider text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all uppercase shadow-sm">
                                 </div>
+                                <p id="cf-hint" class="text-[10px] text-slate-500 mt-1 font-medium">Inserisci un Codice Fiscale valido di 16 caratteri per sbloccare il calendario.</p>
+                            </div>
 
-                                <input type="hidden" id="booking-date" required>
+                            <!-- SELEZIONE GRAFICA 7 GIORNI E ORARI (Nascosta finché non si inserisce il CF) -->
+                            <div id="selection-schedule-section" class="hidden space-y-3 pt-1">
+                                <div>
+                                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                                        <i class="fa-regular fa-calendar-days mr-1 text-sky-500"></i>1. Seleziona il Giorno (Primi 7 Giorni Utili Con Disponibilità)
+                                    </h3>
 
-                                <!-- Griglia Orari -->
-                                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-                                    <div class="text-xs font-semibold text-slate-600 mb-2 flex items-center justify-between">
-                                        <span>2. Orari disponibili per la data scelta:</span>
-                                        <span id="selected-day-label" class="font-bold text-sky-700">Seleziona un giorno</span>
+                                    <!-- Pulsanti dei 7 giorni -->
+                                    <div id="days-container" class="grid grid-cols-7 gap-2 mb-3">
+                                        <!-- Popolato via JS -->
                                     </div>
-                                    <div id="slots-grid-container" class="grid grid-cols-6 gap-2">
-                                        <!-- Gli orari appariranno qui dopo aver cliccato un giorno -->
+
+                                    <input type="hidden" id="booking-date" required>
+
+                                    <!-- Griglia Orari -->
+                                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                                        <div class="text-xs font-semibold text-slate-600 mb-2 flex items-center justify-between">
+                                            <span>2. Orari disponibili per la data scelta:</span>
+                                            <span id="selected-day-label" class="font-bold text-sky-700">Seleziona un giorno</span>
+                                        </div>
+                                        <div id="slots-grid-container" class="grid grid-cols-6 gap-2">
+                                            <!-- Gli orari appariranno qui dopo aver cliccato un giorno -->
+                                        </div>
                                     </div>
+
+                                    <input type="hidden" id="booking-time" required>
                                 </div>
-
-                                <input type="hidden" id="booking-time" required>
                             </div>
 
                             <!-- DATI CLIENTE (Nascosti inizialmente, compaiono alla selezione di data e orario) -->
@@ -196,13 +214,14 @@
                                         </div>
 
                                         <div>
-                                            <label class="block text-xs font-medium text-slate-700 mb-1">Codice Fiscale *</label>
+                                            <label class="block text-xs font-medium text-slate-700 mb-1">Codice Fiscale * (Non modificabile)</label>
                                             <div class="relative">
                                                 <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 pointer-events-none text-xs">
-                                                    <i class="fa-solid fa-barcode"></i>
+                                                    <i class="fa-solid fa-lock"></i>
                                                 </span>
-                                                <input type="text" id="client-cf" required placeholder="RSSMRA80A01F205X" maxlength="16" style="text-transform:uppercase" oninput="handleCFInput()" onchange="checkExistingCF(this.value)"
-                                                    class="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all">
+                                                <!-- CAMPO BLOCCATO ED INIZIALIZZATO AUTOMATICAMENTE -->
+                                                <input type="text" id="client-cf" readonly required placeholder="RSSMRA80A01F205X" maxlength="16" style="text-transform:uppercase"
+                                                    class="w-full pl-8 pr-3 py-1.5 bg-slate-100 border border-slate-300 rounded-lg text-xs font-mono font-bold text-slate-600 cursor-not-allowed select-none focus:outline-none">
                                             </div>
                                         </div>
 
@@ -780,6 +799,40 @@
                 document.getElementById('duplicate-cf-modal').classList.remove('hidden');
             }
         }
+        function validateInitialCF() {
+            const initialCFInput = document.getElementById('initial-cf');
+            const cfValue = initialCFInput.value.trim().toUpperCase();
+            initialCFInput.value = cfValue; // Forza maiuscolo
+
+            const scheduleSection = document.getElementById('selection-schedule-section');
+            const cfHint = document.getElementById('cf-hint');
+            const targetCFInput = document.getElementById('client-cf');
+
+            if (cfValue.length === 16) {
+                // Sblocca la selezione date ed orari
+                scheduleSection.classList.remove('hidden');
+                cfHint.textContent = '✅ Codice Fiscale inserito. Seleziona la data e l\'orario per proseguire.';
+                cfHint.className = 'text-[10px] text-emerald-600 font-bold mt-1';
+                
+                // Compila automaticamente il campo CF finale bloccato
+                targetCFInput.value = cfValue;
+
+                // Controlla se il CF inserito esiste già a sistema
+                if (!hasWarnedCF) {
+                    checkExistingCF(cfValue);
+                }
+            } else {
+                // Se non è completo a 16 caratteri nasconde tutto
+                scheduleSection.classList.add('hidden');
+                document.getElementById('client-data-section').classList.add('hidden');
+                cfHint.textContent = 'Inserisci un Codice Fiscale valido di 16 caratteri per sbloccare il calendario.';
+                cfHint.className = 'text-[10px] text-slate-500 mt-1 font-medium';
+                targetCFInput.value = '';
+                hasWarnedCF = false;
+            }
+            
+            updateFormPreview();
+        }
 
         function closeDuplicateModal() {
             document.getElementById('duplicate-cf-modal').classList.add('hidden');
@@ -1201,12 +1254,22 @@
 
         function resetForm() {
             document.getElementById('booking-form').reset();
+            document.getElementById('initial-cf').value = '';
+            document.getElementById('client-cf').value = '';
+            
             selectedDateString = '';
             selectedSlotString = '';
             hasWarnedCF = false;
+            
+            document.getElementById('selection-schedule-section').classList.add('hidden');
+            document.getElementById('client-data-section').classList.add('hidden');
             document.getElementById('slots-grid-container').innerHTML = '';
             document.getElementById('selected-day-label').textContent = 'Seleziona un giorno';
-            checkAndToggleClientSection();
+            
+            const cfHint = document.getElementById('cf-hint');
+            cfHint.textContent = 'Inserisci un Codice Fiscale valido di 16 caratteri per sbloccare il calendario.';
+            cfHint.className = 'text-[10px] text-slate-500 mt-1 font-medium';
+
             render7Days();
             updateFormPreview();
         }
